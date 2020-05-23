@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/fonts/CyrilicOld.TTF</file>
+        <file>res/images/Arrow.png</file>
+        <file>res/images/Blue.png</file>
+        <file>res/images/Enemy.png</file>
+        <file>res/images/Fon.jpg</file>
+        <file>res/images/Red.png</file>
+        <file>res/images/Road.png</file>
+        <file>res/images/Spawn.png</file>
+        <file>res/images/Tower.png</file>
+        <file>res/images/Tower2.png</file>
+        <file>res/images/Tower3.png</file>
+        <file>res/images/TowerPlace.png</file>
+        <file>res/maps/level.tmx</file>
+        <file>res/maps/map.tmx</file>
+        <file>res/music/back.mp3</file>
+    </qresource>
+</RCC>

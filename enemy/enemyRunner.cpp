@@ -3,17 +3,17 @@
 
 EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
 {
-    distance = 0;
+    passedWay = 0;
     sprite = new QPixmap(":/res/images/Enemy.png");
     max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 800 * pow(0.995, wave);;
+    speed = 800 * pow(0.995, wave);
     point = 1;
     prize = 10;
     this->setPos(way.getStart().x(), way.getStart().y());
-    life = new QTimer();
-    connect(life, SIGNAL(timeout()), this, SLOT(move()));
-    life->start(speed / 50);
+    stepTimer = new QTimer();
+    connect(stepTimer, SIGNAL(timeout()), this, SLOT(move()));
+    stepTimer->start(speed / 50);
 }
 
 void EnemyRunner::move()
@@ -24,7 +24,7 @@ void EnemyRunner::move()
     //
     if(this->scenePos() != way.getPoints().last())
     {
-        distance += (this->scenePos() - way.getPoints()[point]).manhattanLength();
+        passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
 
         if(this->scenePos() == way.getPoints()[point]) ++point;
         else
@@ -59,8 +59,8 @@ void EnemyRunner::move()
     }
     else
     {
-        life->stop();
-        life->disconnect();
+        stepTimer->stop();
+        stepTimer->disconnect();
         emit win();
         delete this;
     }
@@ -68,8 +68,8 @@ void EnemyRunner::move()
 
 void EnemyRunner::stop()
 {
-    life->stop();
-    life->disconnect();
+    stepTimer->stop();
+    stepTimer->disconnect();
 }
 
 int EnemyRunner::getPoint()
@@ -77,9 +77,9 @@ int EnemyRunner::getPoint()
     return point;
 }
 
-int EnemyRunner::getDistance()
+int EnemyRunner::getpassedWay()
 {
-    return  distance;
+    return  passedWay;
 }
 
 void EnemyRunner::damaged(int damage)
@@ -117,11 +117,11 @@ void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 EnemyRunner::~EnemyRunner()
 {
-    if (life != nullptr)
+    if (stepTimer != nullptr)
     {
-        life->stop();
-        life->disconnect();
-        delete life;
+        stepTimer->stop();
+        stepTimer->disconnect();
+        delete stepTimer;
     }
     delete sprite;
 }

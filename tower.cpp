@@ -41,9 +41,9 @@ void Tower::chooseEnemy()
 
         //выбирает в цель врага с самым большим пройденным путём
 
-        if(enemy && enemy->getDistance() > max)
+        if(enemy && enemy->getpassedWay() > max)
         {
-            max = enemy->getDistance();
+            max = enemy->getpassedWay();
             target = enemy;
         }
     }

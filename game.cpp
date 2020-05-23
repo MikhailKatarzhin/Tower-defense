@@ -49,7 +49,7 @@ Game::Game(QWidget *parent /*difficult */)
     wave = 0;
     enemies = waves[0];
     currentEnemy = 0;
-    life = 10;
+    stepTimer = 10;
     money = 120;
     //********************//
 
@@ -62,7 +62,7 @@ Game::Game(QWidget *parent /*difficult */)
     connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
 
     emit ch_enemy(enemies);
-    emit ch_life(life);
+    emit ch_stepTimer(stepTimer);
     emit ch_money(money);
     emit ch_wave(wave);
     //********************//
@@ -133,9 +133,9 @@ void Game::win()
     }
 }
 
-void Game::wasteLife()
+void Game::wastestepTimer()
 {
-    --life;
+    --stepTimer;
     --enemies;
 
     if(enemies == 0)
@@ -151,9 +151,9 @@ void Game::wasteLife()
         }
         else win();
     }
-    if (life <= 0  ) gameOver();
+    if (stepTimer <= 0  ) gameOver();
 
-    emit ch_life(life);
+    emit ch_stepTimer(stepTimer);
     emit ch_enemy(enemies);
 
 }
@@ -223,7 +223,7 @@ void Game::spawnEnemy()
     ++currentEnemy;
 
     connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
-    connect(enemy, SIGNAL(win()), this, SLOT(wasteLife()));
+    connect(enemy, SIGNAL(win()), this, SLOT(wastestepTimer()));
     connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
 
     if (currentEnemy == waves[0])

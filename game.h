@@ -19,7 +19,7 @@ public:
 
 signals:
     void stopEnemy();
-    void ch_life(int);
+    void ch_stepTimer(int);
     void ch_wave(int);
     void ch_money(int);
     void ch_enemy(int);
@@ -28,7 +28,7 @@ signals:
 public slots:
     void createEnemies();
     void spawnEnemy();
-    void wasteLife();
+    void wastestepTimer();
     void reduceMoney(int);
     void cellTower();
 
@@ -57,7 +57,7 @@ private:
     int enemies;
     int currentEnemy;
     int wave;
-    int life;
+    int stepTimer;
     int money;
 };
 

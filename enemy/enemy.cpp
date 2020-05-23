@@ -104,7 +104,7 @@ QPainterPath Enemy::shape() const
     return path;
 }
 
-void Enemy::Enemy::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Enemy::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);
@@ -126,5 +126,6 @@ Enemy::~Enemy()
     delete sprite;
 }
 
-
+void Enemy::dead(int){}
+void Enemy::win(){}
 

@@ -197,7 +197,7 @@ void Game::createEnemies()
     emit btn_wave(false);
     spawnTimer = new  QTimer();
     connect(spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
-    spawnTimer->start(1000); // todo can set enemy creation duration
+    spawnTimer->start(800); // todo can set enemy creation duration
 }
 
 void Game::spawnEnemy()
@@ -215,7 +215,7 @@ void Game::spawnEnemy()
     // if 1..5 { enemy = new FlyEnemy} else { RuneEnemy }
 
 
-    IEnemy *enemy = new Enemy(road, wave); // EnemyFabric
+    Enemy *enemy = new Enemy(road, wave); // EnemyFabric
 
 //  IEnemy *enemy = enemyFactory.createEnemy();
 

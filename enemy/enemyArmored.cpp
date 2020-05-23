@@ -1,22 +1,22 @@
-#include "enemy/enemyRunner.h"
+#include "enemy/enemyArmored.h"
 
 
-EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
+EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
 {
     passedWay = 0;
     sprite = new QPixmap(":/res/images/Enemy.png");
-    max_hp = 80 * pow(1.1, wave);
+    max_hp = 175 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 900 * pow(0.995, wave);
+    speed = 1500 * pow(0.995, wave);
     point = 1;
-    prize = 7 * pow(1.1, wave);
+    prize =10 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     stepTimer = new QTimer();
     connect(stepTimer, SIGNAL(timeout()), this, SLOT(move()));
-    stepTimer->start(speed / 55);
+    stepTimer->start(speed / 45);
 }
 
-void EnemyRunner::move()
+void EnemyArmored::move()
 {
     // тут наверное стоит пересчитывать путь и идти
     // хотя не это затратно
@@ -66,23 +66,23 @@ void EnemyRunner::move()
     }
 }
 
-void EnemyRunner::stop()
+void EnemyArmored::stop()
 {
     stepTimer->stop();
     stepTimer->disconnect();
 }
 
-int EnemyRunner::getPoint()
+int EnemyArmored::getPoint()
 {
     return point;
 }
 
-int EnemyRunner::getpassedWay()
+int EnemyArmored::getpassedWay()
 {
     return  passedWay;
 }
 
-void EnemyRunner::damaged(int damage)
+void EnemyArmored::damaged(int damage)
 {
     current_hp -=damage;
 
@@ -92,19 +92,19 @@ void EnemyRunner::damaged(int damage)
     }
 }
 
-QRectF EnemyRunner::boundingRect() const
+QRectF EnemyArmored::boundingRect() const
 {
     return QRectF(0, 0, sprite->width(), sprite->height());
 }
 
-QPainterPath EnemyRunner::shape() const
+QPainterPath EnemyArmored::shape() const
 {
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
 }
 
-void EnemyRunner::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void EnemyArmored::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);
@@ -115,7 +115,7 @@ void EnemyRunner::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(widget);
 }
 
-EnemyRunner::~EnemyRunner()
+EnemyArmored::~EnemyArmored()
 {
     if (stepTimer != nullptr)
     {

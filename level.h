@@ -1,6 +1,6 @@
 #pragma once
 #include <QGraphicsView>
-#include "levelparser.h"
+#include "map.h"
 #include "tower.h"
 #include "towerplace.h"
 

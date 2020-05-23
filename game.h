@@ -7,12 +7,16 @@
 #include "towerui.h"
 #include "hud.h"
 #include "enemy/IEnemyFactory.h"
+#include "level/ILevelParser.h"
 
 class Game : public QWidget
 {
     Q_OBJECT
 public:
-    Game(QWidget * parent = nullptr /* difficult */);
+    Game(
+            QWidget* parent,
+            ILevelParser* levelParser /* difficult */
+    );
 
     void gameOver();
     void win();
@@ -43,7 +47,7 @@ private:
 //    IEnemyFactory enemyFactory;
     Tower * selectedTower;
     QMediaPlayer *music;
-    LevelParser* parser;
+    ILevelParser*  levelParser;
     QTimer * spawnTimer;
     TowerUI * towerUI;
     Level * level;

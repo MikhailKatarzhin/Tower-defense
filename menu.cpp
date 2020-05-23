@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "game.h"
+#include "level/XmlLevelParser.h"
 
 Menu::Menu(QWidget *parent)
 {
@@ -22,7 +23,7 @@ void Menu::chooseLvl()
     // и передавать саму фабрику здейсь
     // тем самым вытащить логику выбора сложности из класса игра сюда
     // как и положено
-    Game * game  = new Game(); // set difficult
+    Game * game  = new Game(nullptr, new XmlLevelParser(":/res/maps/map.tmx")); // set difficult
     this->close();
     game->show();
     qDebug()<< game->size();

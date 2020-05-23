@@ -27,10 +27,10 @@ CONFIG += c++11
 
 SOURCES += \
     enemy/enemyRunner.cpp \
+    level/XmlLevelParser.cpp \
         main.cpp \
     map.cpp \
     road.cpp \
-    levelparser.cpp \
     game.cpp \
     tower.cpp \
     enemy/enemy.cpp \
@@ -48,9 +48,10 @@ HEADERS += \
     enemy/IEnemy.h \
     enemy/IEnemyFactory.h \
     enemy/enemyRunner.h \
+    level/ILevelParser.h \
+    level/XmlLevelParser.h \
     map.h \
     road.h \
-    levelparser.h \
     game.h \
     tower.h \
     enemy/enemy.h \

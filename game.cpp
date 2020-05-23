@@ -2,7 +2,7 @@
 
 #include "enemy/IEnemy.h"
 
-Game::Game(QWidget *parent /*difficult */)
+Game::Game(QWidget* parent, ILevelParser* levelParser /*difficult */)
 {
     // switch difficult
     // emenyFacrory = HardFactory // for example
@@ -36,12 +36,12 @@ Game::Game(QWidget *parent /*difficult */)
     //********************//
 
     //****Initialisation****//
-    parser = new LevelParser(":/res/maps/map.tmx");
+    this->levelParser = levelParser;
     towerUI = new TowerUI(this);
     hud = new HUD(this);
 
-    road = parser->getRoad();
-    level = new Level(parser->getMap(), this);
+    road =  levelParser->getRoad();
+    level = new Level( levelParser->getMap(), this);
 
     waves = {10, 25, 15, 30, 15};
 
@@ -105,7 +105,7 @@ void Game::gameOver()
 
     if(choice == QMessageBox::Yes)
     {
-        Game * game  = new Game();
+        Game * game  = new Game(nullptr, this->levelParser);
         this->close();
         game->show();
     }
@@ -124,7 +124,7 @@ void Game::win()
     if(choice == QMessageBox::Yes)
     {
         this->close();
-        Game * game  = new Game();
+        Game * game  = new Game(nullptr, this->levelParser);
         game->show();
     }
     else

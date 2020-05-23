@@ -5,15 +5,15 @@ EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
 {
     passedWay = 0;
     sprite = new QPixmap(":/res/images/Enemy.png");
-    max_hp = 100 * pow(1.15, wave);
+    max_hp = 80 * pow(1.1, wave);
     current_hp = max_hp;
-    speed = 800 * pow(0.995, wave);
+    speed = 900 * pow(0.995, wave);
     point = 1;
-    prize = 10;
+    prize = 7 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     stepTimer = new QTimer();
     connect(stepTimer, SIGNAL(timeout()), this, SLOT(move()));
-    stepTimer->start(speed / 50);
+    stepTimer->start(speed / 40);
 }
 
 void EnemyRunner::move()
@@ -104,7 +104,7 @@ QPainterPath EnemyRunner::shape() const
     return path;
 }
 
-void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void EnemyRunner::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);

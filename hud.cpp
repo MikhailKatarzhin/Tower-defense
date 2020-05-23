@@ -19,7 +19,7 @@ HUD::HUD(QWidget *parent) : QWidget(parent)
     v_box->addWidget(l_enemy);
     v_box->setAlignment(Qt::AlignTop);
 
-    connect(parent, SIGNAL(ch_stepTimer(int)), this, SLOT(stepTimer(int)));
+    connect(parent, SIGNAL(ch_stepTimer(int)), this, SLOT(Lifes(int)));
     connect(parent, SIGNAL(ch_money(int)), this, SLOT(money(int)));
     connect(parent, SIGNAL(ch_enemy(int)), this, SLOT(enemy(int)));
     connect(parent, SIGNAL(ch_wave(int)), this, SLOT(wave(int)));
@@ -38,7 +38,7 @@ HUD::~HUD()
     delete v_box;
 }
 
-void HUD::stepTimer(int _stepTimer)
+void HUD::Lifes(int _stepTimer)
 {
     l_stepTimer->setText(QString("stepTimers: %1").arg(_stepTimer));
 }

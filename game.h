@@ -12,8 +12,7 @@ class Game : public QWidget
 {
     Q_OBJECT
 public:
-    Game(QWidget * parent = nullptr /* difficult */);
-
+    Game(QWidget * parent, IEnemyFactory *enemyFactory);
     void gameOver();
     void win();
 
@@ -40,7 +39,7 @@ private slots:
     void lootEnemy(int);
 
 private:
-//    IEnemyFactory enemyFactory;
+    IEnemyFactory *enemyFactory;
     Tower * selectedTower;
     QMediaPlayer *music;
     LevelParser* parser;
@@ -57,7 +56,7 @@ private:
     int enemies;
     int currentEnemy;
     int wave;
-    int stepTimer;
+    int Lifes;
     int money;
 };
 

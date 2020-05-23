@@ -8,7 +8,7 @@ public:
     HUD(QWidget *parent = nullptr);
     ~HUD();
 public slots:
-    void stepTimer(int);
+    void Lifes(int);
     void money(int);
     void enemy(int);
     void wave(int);

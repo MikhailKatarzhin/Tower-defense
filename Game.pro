@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    enemy/BaseEnemyFactory.cpp \
     enemy/enemyArmored.cpp \
     enemy/enemyRunner.cpp \
         main.cpp \
@@ -46,6 +47,7 @@ SOURCES += \
     hud.cpp
 
 HEADERS += \
+    enemy/BaseEnemyFactory.h \
     enemy/IEnemy.h \
     enemy/IEnemyFactory.h \
     enemy/enemyArmored.h \

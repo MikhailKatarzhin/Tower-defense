@@ -37,7 +37,7 @@ void Tower::chooseEnemy()
 
     for (int i = 0, n = colliding_items.size(); i < n; ++i)
     {
-        Enemy *enemy = dynamic_cast<Enemy *>(colliding_items[i]);
+        IEnemy *enemy = dynamic_cast<IEnemy *>(colliding_items[i]);
 
         //выбирает в цель врага с самым большим пройденным путём
 

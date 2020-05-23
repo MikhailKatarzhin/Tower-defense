@@ -2,7 +2,7 @@
 
 #include "enemy/IEnemy.h"
 
-Game::Game(QWidget *parent /*difficult */)
+Game::Game(QWidget *parent , IEnemyFactory *enemyFactory)
 {
     // switch difficult
     // emenyFacrory = HardFactory // for example
@@ -36,6 +36,7 @@ Game::Game(QWidget *parent /*difficult */)
     //********************//
 
     //****Initialisation****//
+    this->enemyFactory = enemyFactory;
     parser = new LevelParser(":/res/maps/map.tmx");
     towerUI = new TowerUI(this);
     hud = new HUD(this);
@@ -49,7 +50,7 @@ Game::Game(QWidget *parent /*difficult */)
     wave = 0;
     enemies = waves[0];
     currentEnemy = 0;
-    stepTimer = 10;
+    Lifes = 10;
     money = 120;
     //********************//
 
@@ -62,7 +63,7 @@ Game::Game(QWidget *parent /*difficult */)
     connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
 
     emit ch_enemy(enemies);
-    emit ch_stepTimer(stepTimer);
+    emit ch_stepTimer(Lifes);
     emit ch_money(money);
     emit ch_wave(wave);
     //********************//
@@ -105,7 +106,7 @@ void Game::gameOver()
 
     if(choice == QMessageBox::Yes)
     {
-        Game * game  = new Game();
+        Game * game  = new Game(nullptr, this->enemyFactory);
         this->close();
         game->show();
     }
@@ -124,7 +125,7 @@ void Game::win()
     if(choice == QMessageBox::Yes)
     {
         this->close();
-        Game * game  = new Game();
+        Game * game  = new Game(nullptr, this->enemyFactory);
         game->show();
     }
     else
@@ -135,7 +136,7 @@ void Game::win()
 
 void Game::wastestepTimer()
 {
-    --stepTimer;
+    --Lifes;
     --enemies;
 
     if(enemies == 0)
@@ -151,9 +152,9 @@ void Game::wastestepTimer()
         }
         else win();
     }
-    if (stepTimer <= 0  ) gameOver();
+    if (Lifes <= 0  ) gameOver();
 
-    emit ch_stepTimer(stepTimer);
+    emit ch_stepTimer(Lifes);
     emit ch_enemy(enemies);
 
 }
@@ -215,9 +216,7 @@ void Game::spawnEnemy()
     // if 1..5 { enemy = new FlyEnemy} else { RuneEnemy }
 
 
-    IEnemy *enemy = new Enemy(road, wave); // EnemyFabric
-
-//  IEnemy *enemy = enemyFactory.createEnemy();
+    IEnemy *enemy = enemyFactory->createEnemy(road, wave);
 
     level->addItem(enemy);
     ++currentEnemy;

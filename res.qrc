@@ -15,5 +15,7 @@
         <file>res/maps/level.tmx</file>
         <file>res/maps/map.tmx</file>
         <file>res/music/back.mp3</file>
+        <file>res/images/EnemyArmored.png</file>
+        <file>res/images/EnemyRunner.png</file>
     </qresource>
 </RCC>

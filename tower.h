@@ -41,7 +41,7 @@ private:
     TowerArea* area;
     QPointF enemyPlace;
     QTimer * detecter;
-    Enemy * target;
+    IEnemy * target;
 
     double centerX;
     double centerY;

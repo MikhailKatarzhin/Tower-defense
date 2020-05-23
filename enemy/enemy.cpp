@@ -11,17 +11,13 @@ Enemy::Enemy(Road _way, int wave) : way(_way)
     point       = 1;
     prize       = 5 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
-    stepTimer = new QTimer();
-    connect(stepTimer, SIGNAL(timeout()), this, SLOT(move()));
-    stepTimer->start(speed / 50);
+    Lifes = new QTimer();
+    connect(Lifes, SIGNAL(timeout()), this, SLOT(move()));
+    Lifes->start(speed / 50);
 }
 
 void Enemy::move()
 {
-    // тут наверное стоит пересчитывать путь и идти
-    // хотя не это затратно
-    // а может и нет
-    //
     if(this->scenePos() != way.getPoints().last())
     {
         passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
@@ -59,8 +55,8 @@ void Enemy::move()
     }
     else
     {
-        stepTimer->stop();
-        stepTimer->disconnect();
+        Lifes->stop();
+        Lifes->disconnect();
         emit win();
         delete this;
     }
@@ -68,8 +64,8 @@ void Enemy::move()
 
 void Enemy::stop()
 {
-    stepTimer->stop();
-    stepTimer->disconnect();
+    Lifes->stop();
+    Lifes->disconnect();
 }
 
 int Enemy::getPoint()
@@ -117,11 +113,11 @@ void Enemy::Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 Enemy::~Enemy()
 {
-    if (stepTimer != nullptr)
+    if (Lifes != nullptr)
     {
-        stepTimer->stop();
-        stepTimer->disconnect();
-        delete stepTimer;
+        Lifes->stop();
+        Lifes->disconnect();
+        delete Lifes;
     }
     delete sprite;
 }

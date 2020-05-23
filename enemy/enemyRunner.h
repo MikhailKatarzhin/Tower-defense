@@ -2,6 +2,7 @@
 #include <QGraphicsObject>
 #include <QPainter>
 #include <QTimer>
+#include <math.h>
 #include "road.h"
 #include "enemy/IEnemy.h"
 

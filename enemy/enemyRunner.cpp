@@ -5,9 +5,9 @@ EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
 {
     distance = 0;
     sprite = new QPixmap(":/res/images/Enemy.png");
-    max_hp = 100 + 20*wave;
+    max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 1000;
+    speed = 800 * pow(0.995, wave);;
     point = 1;
     prize = 10;
     this->setPos(way.getStart().x(), way.getStart().y());

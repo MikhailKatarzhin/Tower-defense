@@ -215,7 +215,7 @@ void Game::spawnEnemy()
     // if 1..5 { enemy = new FlyEnemy} else { RuneEnemy }
 
 
-    Enemy *enemy = new Enemy(road, wave); // EnemyFabric
+    IEnemy *enemy = new Enemy(road, wave); // EnemyFabric
 
 //  IEnemy *enemy = enemyFactory.createEnemy();
 

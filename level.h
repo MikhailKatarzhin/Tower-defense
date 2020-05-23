@@ -22,7 +22,7 @@ private:
     bool building;
     int lvl_h;
     int lvl_w;
-    void createMap();
+    void renderMap();
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);

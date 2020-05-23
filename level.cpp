@@ -5,7 +5,7 @@ Level::Level(Map & _map, QWidget *parent)
     map = _map;
     build_curs = nullptr;
     building = false;
-    createMap();
+    renderMap();
 }
 
 void Level::createPlace(QPointF point)
@@ -20,7 +20,7 @@ void Level::createPlace(QPointF point)
  * Хоть функция и называется создать карту она ее отрисовывает print
  * надо переименовать
  */
-void Level::createMap()
+void Level::renderMap()
 {
     QVector<QVector<int>> sc_lvl = map.getlvlID();
 

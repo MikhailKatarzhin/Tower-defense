@@ -3,13 +3,13 @@
 
 Enemy::Enemy(Road _way, int wave) : way(_way)
 {
-    passedWay = 0;
-    sprite = new QPixmap(":/res/images/Enemy.png");
-    max_hp = 100 * pow(1.15, wave);
-    current_hp = max_hp;
-    speed = 1000 * pow(0.995, wave);
-    point = 1;
-    prize = 5 * pow(1.1, wave);
+    passedWay   = 0;
+    sprite      = new QPixmap(":/res/images/Enemy.png");
+    max_hp      = 100 * pow(1.15, wave);
+    current_hp  = max_hp;
+    speed       = 1000 * pow(0.995, wave);
+    point       = 1;
+    prize       = 5 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     stepTimer = new QTimer();
     connect(stepTimer, SIGNAL(timeout()), this, SLOT(move()));
@@ -104,7 +104,7 @@ QPainterPath Enemy::shape() const
     return path;
 }
 
-void Enemy::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Enemy::Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);
@@ -126,6 +126,4 @@ Enemy::~Enemy()
     delete sprite;
 }
 
-void Enemy::dead(int){}
-void Enemy::win(){}
 

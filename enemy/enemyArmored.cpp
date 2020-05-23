@@ -104,7 +104,7 @@ QPainterPath EnemyArmored::shape() const
     return path;
 }
 
-void EnemyArmored::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void EnemyArmored::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);

@@ -104,7 +104,7 @@ QPainterPath EnemyRunner::shape() const
     return path;
 }
 
-void EnemyRunner::paintHealthBar(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);

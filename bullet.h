@@ -3,7 +3,7 @@
 #include <QGraphicsObject>
 #include <QTimer>
 #include <QPainter>
-#include "enemy/enemy.h"
+#include "enemy/IEnemy.h"
 
 class Bullet: public QGraphicsObject
 {

@@ -12,7 +12,7 @@ Bullet::Bullet(QGraphicsObject * parent)
 
 void Bullet::move()
 {
-    Enemy* enemy = static_cast<Enemy*>(collidingItems().first());
+    IEnemy* enemy = static_cast<IEnemy*>(collidingItems().first());
 
     if(enemy)
     {

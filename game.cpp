@@ -136,16 +136,18 @@ void Game::wastelifes()
     --lifes;
     --enemies;
 
+    emit change_lifes(lifes);
+
     if(enemies == 0)
     {
         ++wave;
-         enemies = 10 + wave * 2;
+        money += lifes * wave;
+        enemies = 10 + wave * 2;
         emit change_wave(wave);
         emit btn_wave(true);
     }
     if (lifes <= 0  ) gameOver();
 
-    emit change_lifes(lifes);
     emit change_enemy(enemies);
 
 }
@@ -210,29 +212,26 @@ void Game::spawnEnemy()
     }
 }
 
-void Game::lootEnemy(int prize)
+void Game::killEnemy(int prize)
 {
+    delete sender();
     money += prize;
     --enemies;
 
     if(enemies == 0)
     {
         ++wave;
-        ++lifes;
-        enemies = 10 + wave * 2;
         emit change_wave(wave);
+
+        ++lifes;
+        emit change_lifes(lifes);
+
+        money += lifes * wave;
+        enemies = 10 + wave * 2;
         emit btn_wave(true);
     }
     emit change_enemy(enemies);
     emit changeMoney(money);
-
-}
-
-void Game::killEnemy(int prize)
-{
-    delete sender();
-    lootEnemy(prize);
-
 }
 
 

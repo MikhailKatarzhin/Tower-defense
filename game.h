@@ -41,7 +41,6 @@ public slots:
 
 private slots:
     void killEnemy(int = 0);
-    void lootEnemy(int);
 
 private:
     IEnemyFactory *enemyFactory;

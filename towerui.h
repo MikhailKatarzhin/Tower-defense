@@ -25,9 +25,7 @@ private:
     int levelTower;
     int costUp;
     int money;
-    int pow;
-    int rad;
-    int nextPow;
+    int nextPower;
     int nextRad;
     int nextCost;
 };

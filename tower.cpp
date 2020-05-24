@@ -71,7 +71,6 @@ void Tower::upgrade()
         {
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower2.png");
-            emit up(this);
             update();
             break;
 
@@ -80,12 +79,12 @@ void Tower::upgrade()
         {
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower3.png");
-            emit up(this);
             update();
             break;
         }
         default: break;
         }
+        emit up(this);
     }
 
 }

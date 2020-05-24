@@ -27,6 +27,7 @@ CONFIG += c++11
 
 SOURCES += \
     enemy/enemyRunner.cpp \
+    level/TextFileLevelParser.cpp \
     level/XmlLevelParser.cpp \
         main.cpp \
     map.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     enemy/IEnemyFactory.h \
     enemy/enemyRunner.h \
     level/ILevelParser.h \
+    level/TextFileLevelParser.h \
     level/XmlLevelParser.h \
     map.h \
     road.h \
@@ -73,4 +75,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     res.qrc
 
-DISTFILES +=
+DISTFILES += \
+    res/maps/map

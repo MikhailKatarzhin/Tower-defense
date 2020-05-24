@@ -15,5 +15,6 @@
         <file>res/maps/level.tmx</file>
         <file>res/maps/map.tmx</file>
         <file>res/music/back.mp3</file>
+        <file>res/maps/map</file>
     </qresource>
 </RCC>

@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include <QtWidgets>
+#include "enemy/IEnemyFactory.h"
 
 class Menu : public QWidget
 {
@@ -9,9 +10,14 @@ class Menu : public QWidget
 public:
     Menu(QWidget * parent  = nullptr);
 public slots:
-    void chooseLvl();
+    void chooseEasy();
+    void chooseBase();
+    void chooseHard();
 private:
-    QPushButton  startgame;
+    void chooseLvl(IEnemyFactory *enemyFactory);
+    QPushButton  easyGame;
+    QPushButton  baseGame;
+    QPushButton  hardGame;
     QPushButton  quit;
 
 };

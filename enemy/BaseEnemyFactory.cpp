@@ -9,7 +9,8 @@ BaseEnemyFactory::BaseEnemyFactory()
 
 IEnemy* BaseEnemyFactory::createEnemy(Road _way, int wave)
 {
-    switch (counter++ % 3)
+    srand(time(0));
+    switch (rand() % 3)
     {
     case 0:
         return new Enemy(_way, wave);

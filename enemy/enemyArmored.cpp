@@ -5,15 +5,15 @@ EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
 {
     passedWay = 0;
     sprite = new QPixmap(":/res/images/EnemyArmored.png");
-    max_hp = 175 * pow(1.15, wave);
+    max_hp = 175 * pow(1.25, wave);
     current_hp = max_hp;
     speed = 1500 * pow(0.995, wave);
     point = 1;
-    prize =10 * pow(1.1, wave);
+    prize =8 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
-    Lifes = new QTimer();
-    connect(Lifes, SIGNAL(timeout()), this, SLOT(move()));
-    Lifes->start(speed / 45);
+    lifes = new QTimer();
+    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
+    lifes->start(speed / 45);
 }
 
 void EnemyArmored::move()
@@ -59,8 +59,8 @@ void EnemyArmored::move()
     }
     else
     {
-        Lifes->stop();
-        Lifes->disconnect();
+        lifes->stop();
+        lifes->disconnect();
         emit win();
         delete this;
     }
@@ -68,8 +68,8 @@ void EnemyArmored::move()
 
 void EnemyArmored::stop()
 {
-    Lifes->stop();
-    Lifes->disconnect();
+    lifes->stop();
+    lifes->disconnect();
 }
 
 int EnemyArmored::getPoint()
@@ -117,11 +117,11 @@ void EnemyArmored::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 EnemyArmored::~EnemyArmored()
 {
-    if (Lifes != nullptr)
+    if (lifes != nullptr)
     {
-        Lifes->stop();
-        Lifes->disconnect();
-        delete Lifes;
+        lifes->stop();
+        lifes->disconnect();
+        delete lifes;
     }
     delete sprite;
 }

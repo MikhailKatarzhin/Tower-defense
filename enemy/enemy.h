@@ -31,7 +31,7 @@ signals:
 
 private:
     QPixmap * sprite;
-    QTimer * Lifes;
+    QTimer * lifes;
     Road way;
 
     int passedWay;

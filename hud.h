@@ -8,15 +8,16 @@ public:
     HUD(QWidget *parent = nullptr);
     ~HUD();
 public slots:
-    void Lifes(int);
+    void lifes(int);
     void money(int);
     void enemy(int);
     void wave(int);
 private:
-    QLabel * l_stepTimer ;
+    QLabel * l_lifes ;
     QLabel * l_money;
     QLabel * l_wave;
     QLabel * l_enemy;
+    QLabel * l_score;
     QPushButton * startWave;
     QVBoxLayout * v_box;
 };

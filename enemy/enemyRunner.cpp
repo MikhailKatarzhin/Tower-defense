@@ -5,15 +5,15 @@ EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
 {
     passedWay = 0;
     sprite = new QPixmap(":/res/images/EnemyRunner.png");
-    max_hp = 80 * pow(1.1, wave);
+    max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 900 * pow(0.995, wave);
+    speed = 900 * pow(0.95, wave);
     point = 1;
     prize = 7 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
-    Lifes = new QTimer();
-    connect(Lifes, SIGNAL(timeout()), this, SLOT(move()));
-    Lifes->start(speed / 55);
+    lifes = new QTimer();
+    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
+    lifes->start(speed / 55);
 }
 
 void EnemyRunner::move()
@@ -59,8 +59,8 @@ void EnemyRunner::move()
     }
     else
     {
-        Lifes->stop();
-        Lifes->disconnect();
+        lifes->stop();
+        lifes->disconnect();
         emit win();
         delete this;
     }
@@ -68,8 +68,8 @@ void EnemyRunner::move()
 
 void EnemyRunner::stop()
 {
-    Lifes->stop();
-    Lifes->disconnect();
+    lifes->stop();
+    lifes->disconnect();
 }
 
 int EnemyRunner::getPoint()
@@ -117,11 +117,11 @@ void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 EnemyRunner::~EnemyRunner()
 {
-    if (Lifes != nullptr)
+    if (lifes != nullptr)
     {
-        Lifes->stop();
-        Lifes->disconnect();
-        delete Lifes;
+        lifes->stop();
+        lifes->disconnect();
+        delete lifes;
     }
     delete sprite;
 }

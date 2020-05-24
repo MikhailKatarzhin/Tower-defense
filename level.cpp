@@ -130,7 +130,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
             tower->setSelected(true);
             emit setUI(tower);
-            emit successBuild(tower->getCost(tower->getLevel()));
+            emit successBuild(tower->getCost());
        }
 
         else if (building && !place)

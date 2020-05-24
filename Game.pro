@@ -27,6 +27,8 @@ CONFIG += c++11
 
 SOURCES += \
     enemy/BaseEnemyFactory.cpp \
+    enemy/EasyEnemyFactory.cpp \
+    enemy/HardEnemyFactory.cpp \
     enemy/enemyArmored.cpp \
     enemy/enemyRunner.cpp \
         main.cpp \
@@ -48,6 +50,8 @@ SOURCES += \
 
 HEADERS += \
     enemy/BaseEnemyFactory.h \
+    enemy/EasyEnemyFactory.h \
+    enemy/HardEnemyFactory.h \
     enemy/IEnemy.h \
     enemy/IEnemyFactory.h \
     enemy/enemyArmored.h \

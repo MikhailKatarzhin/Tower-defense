@@ -11,9 +11,9 @@ Enemy::Enemy(Road _way, int wave) : way(_way)
     point       = 1;
     prize       = 5 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
-    Lifes = new QTimer();
-    connect(Lifes, SIGNAL(timeout()), this, SLOT(move()));
-    Lifes->start(speed / 50);
+    lifes = new QTimer();
+    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
+    lifes->start(speed / 50);
 }
 
 void Enemy::move()
@@ -55,8 +55,8 @@ void Enemy::move()
     }
     else
     {
-        Lifes->stop();
-        Lifes->disconnect();
+        lifes->stop();
+        lifes->disconnect();
         emit win();
         delete this;
     }
@@ -64,8 +64,8 @@ void Enemy::move()
 
 void Enemy::stop()
 {
-    Lifes->stop();
-    Lifes->disconnect();
+    lifes->stop();
+    lifes->disconnect();
 }
 
 int Enemy::getPoint()
@@ -113,11 +113,11 @@ void Enemy::Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 Enemy::~Enemy()
 {
-    if (Lifes != nullptr)
+    if (lifes != nullptr)
     {
-        Lifes->stop();
-        Lifes->disconnect();
-        delete Lifes;
+        lifes->stop();
+        lifes->disconnect();
+        delete lifes;
     }
     delete sprite;
 }

@@ -5,7 +5,7 @@ HUD::HUD(QWidget *parent) : QWidget(parent)
     startWave = new QPushButton("Start wave!");
 
     l_wave = new QLabel(this);
-    l_stepTimer = new QLabel(this);
+    l_lifes = new QLabel(this);
     l_money = new QLabel(this);
     l_enemy = new QLabel(this);
 
@@ -14,15 +14,15 @@ HUD::HUD(QWidget *parent) : QWidget(parent)
 
     v_box->addWidget(startWave);
     v_box->addWidget(l_wave);
-    v_box->addWidget(l_stepTimer);
+    v_box->addWidget(l_lifes);
     v_box->addWidget(l_money);
     v_box->addWidget(l_enemy);
     v_box->setAlignment(Qt::AlignTop);
 
-    connect(parent, SIGNAL(ch_stepTimer(int)), this, SLOT(Lifes(int)));
-    connect(parent, SIGNAL(ch_money(int)), this, SLOT(money(int)));
-    connect(parent, SIGNAL(ch_enemy(int)), this, SLOT(enemy(int)));
-    connect(parent, SIGNAL(ch_wave(int)), this, SLOT(wave(int)));
+    connect(parent, SIGNAL(change_lifes(int)), this, SLOT(lifes(int)));
+    connect(parent, SIGNAL(changeMoney(int)), this, SLOT(money(int)));
+    connect(parent, SIGNAL(change_enemy(int)), this, SLOT(enemy(int)));
+    connect(parent, SIGNAL(change_wave(int)), this, SLOT(wave(int)));
 
     connect(startWave, SIGNAL(clicked()), parent, SLOT(createEnemies()));
     connect(parent, SIGNAL(btn_wave(bool)), startWave, SLOT(setEnabled(bool)));
@@ -31,16 +31,16 @@ HUD::HUD(QWidget *parent) : QWidget(parent)
 HUD::~HUD()
 {
     delete l_enemy;
-    delete l_stepTimer;
+    delete l_lifes;
     delete l_money;
     delete l_wave;
     delete startWave;
     delete v_box;
 }
 
-void HUD::Lifes(int _stepTimer)
+void HUD::lifes(int _lifes)
 {
-    l_stepTimer->setText(QString("stepTimers: %1").arg(_stepTimer));
+    l_lifes->setText(QString("lifes: %1").arg(_lifes));
 }
 
 void HUD::money(int cost)

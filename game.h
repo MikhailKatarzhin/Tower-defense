@@ -15,15 +15,15 @@ class Game : public QWidget
 public:
     Game(
             QWidget* parent,
-            ILevelParser* levelParser /* difficult */
+            IEnemyFactory *enemyFactory,
+            ILevelParser* levelParser
     );
-
     void gameOver();
     void win();
 
 signals:
     void stopEnemy();
-    void ch_life(int);
+    void ch_stepTimer(int);
     void ch_wave(int);
     void ch_money(int);
     void ch_enemy(int);
@@ -32,7 +32,7 @@ signals:
 public slots:
     void createEnemies();
     void spawnEnemy();
-    void wasteLife();
+    void wastestepTimer();
     void reduceMoney(int);
     void cellTower();
 
@@ -44,7 +44,7 @@ private slots:
     void lootEnemy(int);
 
 private:
-//    IEnemyFactory enemyFactory;
+    IEnemyFactory *enemyFactory;
     Tower * selectedTower;
     QMediaPlayer *music;
     ILevelParser*  levelParser;
@@ -61,7 +61,7 @@ private:
     int enemies;
     int currentEnemy;
     int wave;
-    int life;
+    int Lifes;
     int money;
 };
 

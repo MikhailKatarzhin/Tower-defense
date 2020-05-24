@@ -2,12 +2,9 @@
 
 Tower::Tower(QGraphicsObject *parent)
 {
-    level = 0;
-    cost[0] = 50; cost[1] = 100; cost[2] = 200;
-    power[0] = 20; power[1] = 40; power[2] = 70;
-    radius[0] = 200; radius[1] = 250; radius[2] = 300;
+    //cost    *= MULTIPLIERCOST;
 
-    area = nullptr;
+    area    = nullptr;
 
     setAcceptHoverEvents(true);
 
@@ -26,7 +23,7 @@ void Tower::setArea()
 {
     centerX = scenePos().x() + l_centerX;
     centerY = scenePos().y() + l_centerY;
-    area->setPos(centerX-radius[level]/2, centerY-radius[level]/2);
+    area->setPos(centerX-radius/2, centerY-radius/2);
 }
 
 void Tower::chooseEnemy()
@@ -37,13 +34,13 @@ void Tower::chooseEnemy()
 
     for (int i = 0, n = colliding_items.size(); i < n; ++i)
     {
-        Enemy *enemy = dynamic_cast<Enemy *>(colliding_items[i]);
+        IEnemy *enemy = dynamic_cast<IEnemy *>(colliding_items[i]);
 
         //выбирает в цель врага с самым большим пройденным путём
 
-        if(enemy && enemy->getDistance() > max)
+        if(enemy && enemy->getpassedWay() > max)
         {
-            max = enemy->getDistance();
+            max = enemy->getpassedWay();
             target = enemy;
         }
     }
@@ -63,11 +60,15 @@ void Tower::upgrade()
     }
     else
     {
+        ++level;
+        radius    *= MULTIPLIERRADIUS;
+        power   *= MULTIPLIERPOWER;
+        cost  *= MULTIPLIERCOST;
+        salePrice += cost/2;
         switch (level)
         {
-        case 0:
+        case 5:
         {
-            ++level;
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower2.png");
             emit up(this);
@@ -75,9 +76,8 @@ void Tower::upgrade()
             break;
 
         }
-        case 1:
+        case 20:
         {
-            ++level;
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower3.png");
             emit up(this);
@@ -100,7 +100,7 @@ void Tower::fire()
     bullet->setRotation(angle);
 
     scene()->addItem(bullet);
-    target->damaged(power[level]);
+    target->damaged(power);
 }
 
 int Tower::getLevel()
@@ -108,19 +108,24 @@ int Tower::getLevel()
     return level;
 }
 
-int Tower::getPower(int lvl)
+int Tower::getPower()
 {
-    return power[lvl];
+    return power;
 }
 
-int Tower::getRadius(int lvl)
+int Tower::getRadius()
 {
-    return radius[lvl];
+    return radius;
 }
 
-int Tower::getCost(int lvl)
+int Tower::getCost()
 {
-    return cost[lvl];
+    return cost;
+}
+
+int Tower::getSalePrice()
+{
+    return salePrice;
 }
 
 Tower::~Tower()
@@ -141,13 +146,13 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     {
         area = new TowerArea(this);
         scene()->addItem(area);
-        area->setRadius(radius[level]);
+        area->setRadius(radius);
         setArea();
         area->show();
     }
     else
     {
-        area->setRadius(radius[level]);
+        area->setRadius(radius);
         setArea();
     }
     painter->setBrush(QBrush(*sprite));

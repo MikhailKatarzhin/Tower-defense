@@ -1,9 +1,8 @@
 #pragma once
-#include <memory>
-
-#include "IEnemy.h"
+#include "road.h"
+#include "enemy/IEnemy.h"
 
 class IEnemyFactory {
 public:
-    virtual std::shared_ptr<IEnemy> createEnemy();
+    virtual IEnemy* createEnemy(Road _way, int wave) = 0;
 };

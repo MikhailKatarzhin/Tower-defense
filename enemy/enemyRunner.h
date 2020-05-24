@@ -14,7 +14,7 @@ public:
     EnemyRunner(Road, int wave);
     ~EnemyRunner();
     int getPoint();
-    int getDistance();
+    int getpassedWay();
     void damaged(int);
 
 protected:
@@ -31,10 +31,10 @@ signals:
 
 private:
     QPixmap * sprite;
-    QTimer * life;
+    QTimer * lifes;
     Road way;
 
-    int distance;
+    int passedWay;
     int prize;
     int point;
     int max_hp;

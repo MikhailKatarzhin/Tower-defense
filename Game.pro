@@ -26,6 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    enemy/BaseEnemyFactory.cpp \
+    enemy/EasyEnemyFactory.cpp \
+    enemy/HardEnemyFactory.cpp \
+    enemy/enemyArmored.cpp \
     enemy/enemyRunner.cpp \
     level/TextFileLevelParser.cpp \
     level/XmlLevelParser.cpp \
@@ -46,8 +50,12 @@ SOURCES += \
     hud.cpp
 
 HEADERS += \
+    enemy/BaseEnemyFactory.h \
+    enemy/EasyEnemyFactory.h \
+    enemy/HardEnemyFactory.h \
     enemy/IEnemy.h \
     enemy/IEnemyFactory.h \
+    enemy/enemyArmored.h \
     enemy/enemyRunner.h \
     level/ILevelParser.h \
     level/TextFileLevelParser.h \

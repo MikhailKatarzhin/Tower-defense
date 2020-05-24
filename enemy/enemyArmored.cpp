@@ -1,23 +1,27 @@
-#include "enemy/enemy.h"
+#include "enemy/enemyArmored.h"
 
 
-Enemy::Enemy(Road _way, int wave) : way(_way)
+EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
 {
-    passedWay   = 0;
-    sprite      = new QPixmap(":/res/images/Enemy.png");
-    max_hp      = 100 * pow(1.15, wave);
-    current_hp  = max_hp;
-    speed       = 1000 * pow(0.995, wave);
-    point       = 1;
-    prize       = 5 * pow(1.1, wave);
+    passedWay = 0;
+    sprite = new QPixmap(":/res/images/EnemyArmored.png");
+    max_hp = 175 * pow(1.25, wave);
+    current_hp = max_hp;
+    speed = 1500 * pow(0.995, wave);
+    point = 1;
+    prize =8 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     lifes = new QTimer();
     connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
-    lifes->start(speed / 50);
+    lifes->start(speed / 45);
 }
 
-void Enemy::move()
+void EnemyArmored::move()
 {
+    // тут наверное стоит пересчитывать путь и идти
+    // хотя не это затратно
+    // а может и нет
+    //
     if(this->scenePos() != way.getPoints().last())
     {
         passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
@@ -62,23 +66,23 @@ void Enemy::move()
     }
 }
 
-void Enemy::stop()
+void EnemyArmored::stop()
 {
     lifes->stop();
     lifes->disconnect();
 }
 
-int Enemy::getPoint()
+int EnemyArmored::getPoint()
 {
     return point;
 }
 
-int Enemy::getpassedWay()
+int EnemyArmored::getpassedWay()
 {
     return  passedWay;
 }
 
-void Enemy::damaged(int damage)
+void EnemyArmored::damaged(int damage)
 {
     current_hp -=damage;
 
@@ -88,19 +92,19 @@ void Enemy::damaged(int damage)
     }
 }
 
-QRectF Enemy::boundingRect() const
+QRectF EnemyArmored::boundingRect() const
 {
     return QRectF(0, 0, sprite->width(), sprite->height());
 }
 
-QPainterPath Enemy::shape() const
+QPainterPath EnemyArmored::shape() const
 {
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
 }
 
-void Enemy::Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void EnemyArmored::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(*sprite));
     painter->setPen(Qt::NoPen);
@@ -111,7 +115,7 @@ void Enemy::Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(widget);
 }
 
-Enemy::~Enemy()
+EnemyArmored::~EnemyArmored()
 {
     if (lifes != nullptr)
     {
@@ -121,5 +125,6 @@ Enemy::~Enemy()
     }
     delete sprite;
 }
+
 
 

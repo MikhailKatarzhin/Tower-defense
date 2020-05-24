@@ -2,7 +2,7 @@
 
 #include "enemy/IEnemy.h"
 
-Game::Game(QWidget* parent, ILevelParser* levelParser /*difficult */)
+Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelParser)
 {
     // switch difficult
     // emenyFacrory = HardFactory // for example
@@ -37,6 +37,7 @@ Game::Game(QWidget* parent, ILevelParser* levelParser /*difficult */)
 
     //****Initialisation****//
     this->levelParser = levelParser;
+    this->enemyFactory = enemyFactory;
     towerUI = new TowerUI(this);
     hud = new HUD(this);
 
@@ -49,7 +50,7 @@ Game::Game(QWidget* parent, ILevelParser* levelParser /*difficult */)
     wave = 0;
     enemies = waves[0];
     currentEnemy = 0;
-    life = 10;
+    Lifes = 10;
     money = 120;
     //********************//
 
@@ -62,7 +63,7 @@ Game::Game(QWidget* parent, ILevelParser* levelParser /*difficult */)
     connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
 
     emit ch_enemy(enemies);
-    emit ch_life(life);
+    emit ch_stepTimer(Lifes);
     emit ch_money(money);
     emit ch_wave(wave);
     //********************//
@@ -105,7 +106,7 @@ void Game::gameOver()
 
     if(choice == QMessageBox::Yes)
     {
-        Game * game  = new Game(nullptr, this->levelParser);
+        Game * game  = new Game(nullptr, this->enemyFactory, this->levelParser);
         this->close();
         game->show();
     }
@@ -124,7 +125,7 @@ void Game::win()
     if(choice == QMessageBox::Yes)
     {
         this->close();
-        Game * game  = new Game(nullptr, this->levelParser);
+        Game * game  = new Game(nullptr, this->enemyFactory, this->levelParser);
         game->show();
     }
     else
@@ -133,9 +134,9 @@ void Game::win()
     }
 }
 
-void Game::wasteLife()
+void Game::wastestepTimer()
 {
-    --life;
+    --Lifes;
     --enemies;
 
     if(enemies == 0)
@@ -151,9 +152,9 @@ void Game::wasteLife()
         }
         else win();
     }
-    if (life <= 0  ) gameOver();
+    if (Lifes <= 0  ) gameOver();
 
-    emit ch_life(life);
+    emit ch_stepTimer(Lifes);
     emit ch_enemy(enemies);
 
 }
@@ -197,7 +198,7 @@ void Game::createEnemies()
     emit btn_wave(false);
     spawnTimer = new  QTimer();
     connect(spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
-    spawnTimer->start(1000); // todo can set enemy creation duration
+    spawnTimer->start(800); // todo can set enemy creation duration
 }
 
 void Game::spawnEnemy()
@@ -215,15 +216,13 @@ void Game::spawnEnemy()
     // if 1..5 { enemy = new FlyEnemy} else { RuneEnemy }
 
 
-    IEnemy *enemy = new Enemy(road, wave); // EnemyFabric
-
-//  IEnemy *enemy = enemyFactory.createEnemy();
+    IEnemy *enemy = enemyFactory->createEnemy(road, wave);
 
     level->addItem(enemy);
     ++currentEnemy;
 
     connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
-    connect(enemy, SIGNAL(win()), this, SLOT(wasteLife()));
+    connect(enemy, SIGNAL(win()), this, SLOT(wastestepTimer()));
     connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
 
     if (currentEnemy == waves[0])

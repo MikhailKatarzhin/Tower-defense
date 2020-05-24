@@ -6,28 +6,28 @@
 #include "road.h"
 #include "enemy/IEnemy.h"
 
-class Enemy: public IEnemy
+class EnemyArmored: public IEnemy
 {
     Q_OBJECT
 
 public:
-    Enemy(Road, int wave);
-    ~Enemy();
-    int getPoint() override;
-    int getpassedWay()override;
-    void damaged(int)override;
+    EnemyArmored(Road, int wave);
+    ~EnemyArmored();
+    int getPoint();
+    int getpassedWay();
+    void damaged(int);
 
 protected:
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    QPainterPath shape() const override;
+    QPainterPath shape() const;
 
 public slots:
-    void move() override;
-    void stop() override;
+    void move();
+    void stop();
 signals:
-    void dead(int) override;
-    void win() override;
+    void dead(int);
+    void win();
 
 private:
     QPixmap * sprite;

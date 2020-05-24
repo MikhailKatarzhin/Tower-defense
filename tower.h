@@ -11,15 +11,21 @@ class Tower : public QGraphicsObject
     Q_OBJECT
 
 public:
+
+    const float MULTIPLIERRADIUS  = 1.25;
+    const float MULTIPLIERPOWER   = 1.9;
+    const float MULTIPLIERCOST    = 2.1;
+
     Tower(QGraphicsObject * parent = nullptr);
 
     void setArea();
     void fire();
 
     int getLevel();
-    int getPower(int);
-    int getRadius(int);
-    int getCost(int);
+    int getPower();
+    int getRadius();
+    int getCost();
+    int getSalePrice();
 
     ~Tower();
 
@@ -41,7 +47,7 @@ private:
     TowerArea* area;
     QPointF enemyPlace;
     QTimer * detecter;
-    Enemy * target;
+    IEnemy * target;
 
     double centerX;
     double centerY;
@@ -49,9 +55,10 @@ private:
     double l_centerY;
 
     int point;
-    int radius[3];
-    int power[3];
-    int cost[3];
-    int level;
+    int radius = 200;
+    int power = 20;
+    int cost = 50;
+    int level = 0;
+    int salePrice = 0;
 };
 

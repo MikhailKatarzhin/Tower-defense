@@ -3,17 +3,17 @@
 
 EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
 {
-    distance = 0;
-    sprite = new QPixmap(":/res/images/Enemy.png");
+    passedWay = 0;
+    sprite = new QPixmap(":/res/images/EnemyRunner.png");
     max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 800 * pow(0.995, wave);;
+    speed = 900 * pow(0.95, wave);
     point = 1;
-    prize = 10;
+    prize = 7 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
-    life = new QTimer();
-    connect(life, SIGNAL(timeout()), this, SLOT(move()));
-    life->start(speed / 50);
+    lifes = new QTimer();
+    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
+    lifes->start(speed / 55);
 }
 
 void EnemyRunner::move()
@@ -24,7 +24,7 @@ void EnemyRunner::move()
     //
     if(this->scenePos() != way.getPoints().last())
     {
-        distance += (this->scenePos() - way.getPoints()[point]).manhattanLength();
+        passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
 
         if(this->scenePos() == way.getPoints()[point]) ++point;
         else
@@ -59,8 +59,8 @@ void EnemyRunner::move()
     }
     else
     {
-        life->stop();
-        life->disconnect();
+        lifes->stop();
+        lifes->disconnect();
         emit win();
         delete this;
     }
@@ -68,8 +68,8 @@ void EnemyRunner::move()
 
 void EnemyRunner::stop()
 {
-    life->stop();
-    life->disconnect();
+    lifes->stop();
+    lifes->disconnect();
 }
 
 int EnemyRunner::getPoint()
@@ -77,9 +77,9 @@ int EnemyRunner::getPoint()
     return point;
 }
 
-int EnemyRunner::getDistance()
+int EnemyRunner::getpassedWay()
 {
-    return  distance;
+    return  passedWay;
 }
 
 void EnemyRunner::damaged(int damage)
@@ -117,11 +117,11 @@ void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 EnemyRunner::~EnemyRunner()
 {
-    if (life != nullptr)
+    if (lifes != nullptr)
     {
-        life->stop();
-        life->disconnect();
-        delete life;
+        lifes->stop();
+        lifes->disconnect();
+        delete lifes;
     }
     delete sprite;
 }

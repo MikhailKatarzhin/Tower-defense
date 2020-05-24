@@ -1,7 +1,7 @@
 #include "game.h"
 #include "enemy/IEnemy.h"
 
-Game::Game(QWidget *parent , IEnemyFactory *enemyFactory)
+Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelParser)
 {
     // switch difficult
     // emenyFacrory = HardFactory // for example
@@ -35,13 +35,13 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory)
     //********************//
 
     //****Initialisation****//
+    this->levelParser = levelParser;
     this->enemyFactory = enemyFactory;
-    parser = new LevelParser(":/res/maps/map.tmx");
     towerUI = new TowerUI(this);
     hud = new HUD(this);
 
-    road = parser->getRoad();
-    level = new Level(parser->getMap(), this);
+    road =  levelParser->getRoad();
+    level = new Level( levelParser->getMap(), this);
 
     selectedTower = nullptr;
     wave = 0;
@@ -103,8 +103,26 @@ void Game::gameOver()
 
     if(choice == QMessageBox::Yes)
     {
+        Game * game  = new Game(nullptr, this->enemyFactory, this->levelParser);
         this->close();
-        Game * game  = new Game(nullptr, this->enemyFactory);
+        game->show();
+    }
+    else
+    {
+        close();
+    }
+}
+
+void Game::win()
+{
+    QMessageBox * restart = new QMessageBox (QMessageBox::Question, "You are Winner!!!","Do you want to play more?", QMessageBox::Yes| QMessageBox::No);
+    music->stop();
+    int choice = restart->exec();
+
+    if(choice == QMessageBox::Yes)
+    {
+        Game * game  = new Game(nullptr, this->enemyFactory, this->levelParser);
+        this->close();
         game->show();
     }
     else

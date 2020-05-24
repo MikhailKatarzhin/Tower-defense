@@ -31,10 +31,11 @@ SOURCES += \
     enemy/HardEnemyFactory.cpp \
     enemy/enemyArmored.cpp \
     enemy/enemyRunner.cpp \
+    level/TextFileLevelParser.cpp \
+    level/XmlLevelParser.cpp \
         main.cpp \
     map.cpp \
     road.cpp \
-    levelparser.cpp \
     game.cpp \
     tower.cpp \
     enemy/enemy.cpp \
@@ -56,9 +57,11 @@ HEADERS += \
     enemy/IEnemyFactory.h \
     enemy/enemyArmored.h \
     enemy/enemyRunner.h \
+    level/ILevelParser.h \
+    level/TextFileLevelParser.h \
+    level/XmlLevelParser.h \
     map.h \
     road.h \
-    levelparser.h \
     game.h \
     tower.h \
     enemy/enemy.h \
@@ -80,4 +83,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     res.qrc
 
-DISTFILES +=
+DISTFILES += \
+    res/maps/map

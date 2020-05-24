@@ -1,5 +1,4 @@
 #include "game.h"
-
 #include "enemy/IEnemy.h"
 
 Game::Game(QWidget *parent , IEnemyFactory *enemyFactory)
@@ -44,28 +43,26 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory)
     road = parser->getRoad();
     level = new Level(parser->getMap(), this);
 
-    waves = {10, 25, 15, 30, 15};
-
     selectedTower = nullptr;
     wave = 0;
-    enemies = waves[0];
+    enemies = 10 + wave * 2;
     currentEnemy = 0;
-    Lifes = 10;
-    money = 120;
+    lifes = 10;
+    money = 100;
     //********************//
 
 
     //****SIGNALS****//
-    connect(this, SIGNAL(ch_money(int)), &build_ui, SLOT(setPossible(int)));
-    connect(this, SIGNAL(ch_money(int)), towerUI, SLOT(setMoney(int)));
+    connect(this, SIGNAL(changeMoney(int)), &build_ui, SLOT(setPossible(int)));
+    connect(this, SIGNAL(changeMoney(int)), towerUI, SLOT(setMoney(int)));
     connect(level,SIGNAL(setUI(Tower*)), this, SLOT(selectTower(Tower*)));
     connect(level, SIGNAL(successBuild(int)), this, SLOT(reduceMoney(int)));
     connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
 
-    emit ch_enemy(enemies);
-    emit ch_stepTimer(Lifes);
-    emit ch_money(money);
-    emit ch_wave(wave);
+    emit change_enemy(enemies);
+    emit change_lifes(lifes);
+    emit changeMoney(money);
+    emit change_wave(wave);
     //********************//
 
     //****View****//
@@ -106,24 +103,6 @@ void Game::gameOver()
 
     if(choice == QMessageBox::Yes)
     {
-        Game * game  = new Game(nullptr, this->enemyFactory);
-        this->close();
-        game->show();
-    }
-    else
-    {
-        close();
-    }
-}
-
-void Game::win()
-{
-    QMessageBox * restart = new QMessageBox (QMessageBox::Question, "You are Winner!!!","Do you want to play more?", QMessageBox::Yes| QMessageBox::No);
-    music->stop();
-    int choice = restart->exec();
-
-    if(choice == QMessageBox::Yes)
-    {
         this->close();
         Game * game  = new Game(nullptr, this->enemyFactory);
         game->show();
@@ -134,35 +113,29 @@ void Game::win()
     }
 }
 
-void Game::wastestepTimer()
+void Game::wastelifes()
 {
-    --Lifes;
+    --lifes;
     --enemies;
 
     if(enemies == 0)
     {
-        waves.pop_front();
-
-        if (!waves.empty())
-        {
-            ++wave;
-            enemies = waves[0];
-            emit ch_wave(wave);
-            emit btn_wave(true);
-        }
-        else win();
+        ++wave;
+         enemies = 10 + wave * 2;
+        emit change_wave(wave);
+        emit btn_wave(true);
     }
-    if (Lifes <= 0  ) gameOver();
+    if (lifes <= 0  ) gameOver();
 
-    emit ch_stepTimer(Lifes);
-    emit ch_enemy(enemies);
+    emit change_lifes(lifes);
+    emit change_enemy(enemies);
 
 }
 
 void Game::reduceMoney(int cash)
 {
     money-=cash;
-    emit ch_money(money);
+    emit changeMoney(money);
 }
 
 void Game::selectTower(Tower * tower)
@@ -173,18 +146,18 @@ void Game::selectTower(Tower * tower)
 
 void Game::upgradeTower()
 {
-    money-=selectedTower->getCost(selectedTower->getLevel());
+    money-=selectedTower->getCost();
     selectedTower->upgrade();
-    emit ch_money(money);
+    emit changeMoney(money);
 }
 
-void Game::cellTower()
+void Game::sellTower()
 {
     if(selectedTower)
     {
-        money+=selectedTower->getCost(selectedTower->getLevel())/2;
+        money+=selectedTower->getSalePrice();
         level->createPlace(selectedTower->scenePos());
-        emit ch_money(money);
+        emit changeMoney(money);
         level->clearSelection();
         level->removeItem(selectedTower);
         delete selectedTower;
@@ -203,29 +176,16 @@ void Game::createEnemies()
 
 void Game::spawnEnemy()
 {
-    // IEnemy
-
-    // random from 1 to 10
-
-    // IEnemy
-    // FlyEnemy::IEnemy
-    // RunEnemy::IEnemy
-    // GlassEnemy::Ibn
-
-    // IEnemy ememy;
-    // if 1..5 { enemy = new FlyEnemy} else { RuneEnemy }
-
-
     IEnemy *enemy = enemyFactory->createEnemy(road, wave);
 
     level->addItem(enemy);
     ++currentEnemy;
 
     connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
-    connect(enemy, SIGNAL(win()), this, SLOT(wastestepTimer()));
+    connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
     connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
 
-    if (currentEnemy == waves[0])
+    if (currentEnemy == 10 + wave * 2)
     {
         spawnTimer->disconnect();
         currentEnemy = 0;
@@ -239,22 +199,14 @@ void Game::lootEnemy(int prize)
 
     if(enemies == 0)
     {
-        waves.pop_front();
-
-        if (!waves.empty())
-        {
-            ++wave;
-            enemies = waves[0];
-            emit ch_wave(wave);
-            emit btn_wave(true);
-        }
-        else {
-            emit ch_enemy(enemies);
-            win();
-        }
+        ++wave;
+        ++lifes;
+        enemies = 10 + wave * 2;
+        emit change_wave(wave);
+        emit btn_wave(true);
     }
-    emit ch_enemy(enemies);
-    emit ch_money(money);
+    emit change_enemy(enemies);
+    emit changeMoney(money);
 
 }
 

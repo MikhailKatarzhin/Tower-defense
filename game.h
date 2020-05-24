@@ -18,18 +18,18 @@ public:
 
 signals:
     void stopEnemy();
-    void ch_stepTimer(int);
-    void ch_wave(int);
-    void ch_money(int);
-    void ch_enemy(int);
+    void change_lifes(int);
+    void change_wave(int);
+    void changeMoney(int);
+    void change_enemy(int);
     void btn_wave(bool);
 
 public slots:
     void createEnemies();
     void spawnEnemy();
-    void wastestepTimer();
+    void wastelifes();
     void reduceMoney(int);
-    void cellTower();
+    void sellTower();
 
     void selectTower(Tower *tower = nullptr);
     void upgradeTower();
@@ -51,12 +51,10 @@ private:
     BuildingUI  build_ui;
     Road road;
 
-    QVector<int> waves;
-
     int enemies;
     int currentEnemy;
     int wave;
-    int Lifes;
+    int lifes;
     int money;
 };
 

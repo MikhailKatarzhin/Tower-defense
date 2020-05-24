@@ -4,6 +4,13 @@
 #include <QString>
 #include "ILevelParser.h"
 
+/**
+ * @brief The TextFileLevelParser class
+ * This is the realisation of the interface ILeveLParser.
+ * This class can parse just text files.
+ * Road in this files writed by cell.
+ * Example: :/res/maps/map.
+ */
 class TextFileLevelParser: public ILevelParser
 {
 public:

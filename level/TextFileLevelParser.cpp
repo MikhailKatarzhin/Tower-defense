@@ -135,6 +135,7 @@ bool TextFileLevelParser::parseRoadLine(QString roadLine)
             return false;
         }
         x *= this->getMap().getTileW();
+        // for the walking between cells, subtract half of the cell
         x -= this->getMap().getTileW() / 2;
         int y = xYPair[1].toInt(&ok);
         if (!ok) {
@@ -142,6 +143,7 @@ bool TextFileLevelParser::parseRoadLine(QString roadLine)
             return false;
         }
         y *= this->getMap().getTileH();
+        // for the walking between cells, subtract half of the cell
         y -= this->getMap().getTileH() / 2;
         qDebug() << x << y;
         roadPoints << QPoint(x, y);

@@ -22,7 +22,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
     music = new QMediaPlayer(this);
     music->setPlaylist(playlist);
-    music->setVolume(25);
+    music->setVolume(15);
     music->play();
     //********************//
 
@@ -92,7 +92,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
 void Game::gameOver()
 {
 
-    QMessageBox * restart = new QMessageBox (QMessageBox::Question,"GameOver(","Do you want to restart level?", QMessageBox::Yes| QMessageBox::No);
+    QMessageBox * restart = new QMessageBox (QMessageBox::Question,"GameOver","Do you want to restart level?", QMessageBox::Yes| QMessageBox::No);
     music->stop();
     spawnTimer->stop();
     spawnTimer->disconnect();
@@ -113,43 +113,12 @@ void Game::gameOver()
     }
 }
 
-void Game::win()
-{
-    QMessageBox * restart = new QMessageBox (QMessageBox::Question, "You are Winner!!!","Do you want to play more?", QMessageBox::Yes| QMessageBox::No);
-    music->stop();
-    int choice = restart->exec();
-
-    if(choice == QMessageBox::Yes)
-    {
-        Game * game  = new Game(nullptr, this->enemyFactory, this->levelParser);
-        this->close();
-        game->show();
-    }
-    else
-    {
-        close();
-    }
-}
-
 void Game::wastelifes()
 {
     --lifes;
     --enemies;
-
-    emit change_lifes(lifes);
-
-    if(enemies == 0)
-    {
-        ++wave;
-        money += lifes * wave;
-        enemies = 10 + wave * 2;
-        emit change_wave(wave);
-        emit btn_wave(true);
-    }
     if (lifes <= 0  ) gameOver();
-
     emit change_enemy(enemies);
-
 }
 
 void Game::reduceMoney(int cash)
@@ -209,6 +178,13 @@ void Game::spawnEnemy()
     {
         spawnTimer->disconnect();
         currentEnemy = 0;
+        emit btn_wave(true);
+        ++wave;
+        emit change_wave(wave);
+        ++lifes;
+        emit change_lifes(lifes);
+        money += lifes * wave;
+        enemies += 10 + wave * 2;
     }
 }
 
@@ -217,19 +193,6 @@ void Game::killEnemy(int prize)
     delete sender();
     money += prize;
     --enemies;
-
-    if(enemies == 0)
-    {
-        ++wave;
-        emit change_wave(wave);
-
-        ++lifes;
-        emit change_lifes(lifes);
-
-        money += lifes * wave;
-        enemies = 10 + wave * 2;
-        emit btn_wave(true);
-    }
     emit change_enemy(enemies);
     emit changeMoney(money);
 }

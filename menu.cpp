@@ -14,7 +14,7 @@ Menu::Menu(QWidget *parent)
     setFixedSize(300,300);
     easyGame.setText("&Easy game");
     baseGame.setText("&Base game");
-    hardGame.setText("&Htart game");
+    hardGame.setText("&Hard game");
     quit.setText("&Exit");
     v_box->addWidget(&easyGame);
     v_box->addWidget(&baseGame);

@@ -16,11 +16,6 @@ void Level::createPlace(QPointF point)
     addItem(place);
 }
 
-/**
- * @brief Level::createMap
- * Хоть функция и называется создать карту она ее отрисовывает print
- * надо переименовать
- */
 void Level::renderMap()
 {
     QVector<QVector<int>> sc_lvl = map.getlvlID();
@@ -104,7 +99,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
     TowerPlace * place = dynamic_cast<TowerPlace*>(items(event->scenePos()).last());
     ITower * tow = dynamic_cast<ITower*>(items(event->scenePos()).last());
     clearSelection();
-    // тут обрабатывается клик и мстроится башня
+    // тут обрабатывается клик и строится башня
     // либо отмена
 
     // кароч тут после строительства думают стоит кидать сигнал на который враги будут пересчитывать путь
@@ -112,9 +107,6 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
     // ИДЕЯ
     // Модифицировать алгоритм A* так что если поле под атакой башни то +1 в этой клетке
     // Если 2 башни атакуют клетку то +2 соответственно
-    // проверил на бумажке, работает, тьолько считать следущие клетки надо от меньших
-    // типо есть с краю просчитанного 4 и 6 сначала считаем крайние клетки от 4х
-    // когда проходим обратно то идем по минимальным значениям
     if(event->button() == Qt::LeftButton)
     {
         if (building && place)

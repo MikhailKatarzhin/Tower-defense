@@ -2,13 +2,9 @@
 
 Tower::Tower(QGraphicsObject *parent)
 {
-    //cost    *= MULTIPLIERCOST;
-
     area    = nullptr;
 
     setAcceptHoverEvents(true);
-
-    sprite = new QPixmap(":/res/images/Tower.png");
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     l_centerX = sprite->width()/2;
@@ -60,17 +56,38 @@ void Tower::upgrade()
     }
     else
     {
-        ++level;
-        radius    *= MULTIPLIERRADIUS;
-        power   *= MULTIPLIERPOWER;
-        cost  *= MULTIPLIERCOST;
-        salePrice += cost/2;
+        if(INT_MAX / MULTIPLIERRADIUS > radius)
+            radius *= MULTIPLIERRADIUS;
+        else
+            radius = INT_MAX;
+
+        if(INT_MAX / MULTIPLIERPOWER > power)
+            power *= MULTIPLIERPOWER;
+        else
+            power = INT_MAX;
+
+        if(radius == INT_MAX && power == INT_MAX)
+            cost = 0;
+        else
+            ++level;
+
+        if(INT_MAX / MULTIPLIERCOST > cost)
+            cost  *= MULTIPLIERCOST;
+        else
+            cost = INT_MAX;
+
+        if(INT_MAX - cost/2 > salePrice)
+            salePrice += cost/2;
+        else
+            salePrice = INT_MAX;
+
         switch (level)
         {
         case 5:
         {
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower2.png");
+            power   *= 2;
             update();
             break;
 
@@ -79,12 +96,13 @@ void Tower::upgrade()
         {
             delete sprite;
             sprite = new QPixmap(":/res/images/Tower3.png");
+            power   *= 3;
             update();
             break;
         }
         default: break;
         }
-        emit up(this);
+        emit updateTower(this);
     }
 
 }
@@ -100,6 +118,30 @@ void Tower::fire()
 
     scene()->addItem(bullet);
     target->damaged(power);
+}
+
+
+float Tower::getMULTIPLIERRADIUS()
+{
+    return MULTIPLIERRADIUS;
+}
+
+float Tower::getMULTIPLIERPOWER()
+{
+    return MULTIPLIERPOWER;
+}
+float Tower::getMULTIPLIERCOST()
+{
+    return MULTIPLIERCOST;
+}
+int Tower::getBASECOST()
+{
+    return BASECOST;
+}
+
+QPixmap* Tower::getSprite()
+{
+    return sprite;
 }
 
 int Tower::getLevel()

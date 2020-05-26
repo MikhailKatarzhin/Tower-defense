@@ -1,6 +1,6 @@
 #pragma once
 #include <QtWidgets>
-#include "tower.h"
+#include "tower/ITower.h"
 
 /**
  * This is UI with towers changing.
@@ -12,7 +12,7 @@ public:
     TowerUI(QWidget *parent = nullptr);
 
 public slots:
-    void setUi(Tower* tower = nullptr);
+    void setUi(ITower* tower = nullptr);
     void checkUp();
     void setMoney(int);
 

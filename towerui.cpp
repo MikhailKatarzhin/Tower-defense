@@ -28,7 +28,7 @@ TowerUI::TowerUI(QWidget *parent) : QWidget(parent)
     connect(sell, SIGNAL(clicked()), parent, SLOT(sellTower()));
 }
 
-void TowerUI::setUi(Tower * tower)
+void TowerUI::setUi(ITower * tower)
 {
     if(tower != nullptr)
     {
@@ -36,15 +36,15 @@ void TowerUI::setUi(Tower * tower)
         costUp      = tower->getCost();
 
         level->setText(QString("Level: %1 (%2)").arg(levelTower).arg(levelTower+1));
-        power->setText(QString("Power: %1 (+%2)").arg(tower->getPower()).arg((int)(tower->getPower() * (tower->MULTIPLIERPOWER - 1))));
-        radius->setText(QString("Radius: %1 (+%2)").arg(tower->getRadius()).arg((int)(tower->getRadius() * (tower->MULTIPLIERRADIUS - 1))));
+        power->setText(QString("Power: %1 (+%2)").arg(tower->getPower()).arg((int)(tower->getPower() * (tower->getMULTIPLIERPOWER() - 1))));
+        radius->setText(QString("Radius: %1 (+%2)").arg(tower->getRadius()).arg((int)(tower->getRadius() * (tower->getMULTIPLIERRADIUS() - 1))));
         sell->setText(QString("Sell %1").arg(tower->getSalePrice()));
 
         upgrade->setText(QString("Upgrade %1").arg(costUp));
         checkUp();
 
         sell->setEnabled(true);
-        connect(tower, SIGNAL(up(Tower*)), this, SLOT(setUi(Tower*)));
+        connect(tower, SIGNAL(updateTower(ITower*)), this, SLOT(setUi(ITower*)));
     }
     else
     {

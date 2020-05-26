@@ -34,13 +34,10 @@ void TowerUI::setUi(Tower * tower)
     {
         levelTower  = tower->getLevel();
         costUp      = tower->getCost();
-        nextCost    = tower->getCost()      * pow(tower->MULTIPLIERCOST, levelTower);
-        nextPower   = tower->getPower()     * pow(tower->MULTIPLIERPOWER, levelTower);
-        nextRad     = tower->getRadius()    * pow(tower->MULTIPLIERRADIUS, levelTower);
 
         level->setText(QString("Level: %1 (%2)").arg(levelTower).arg(levelTower+1));
-        power->setText(QString("Power: %1 (%2)").arg(tower->getPower()).arg(nextPower));
-        radius->setText(QString("Radius: %1 (%2)").arg(tower->getRadius()).arg(nextRad));
+        power->setText(QString("Power: %1 (+%2)").arg(tower->getPower()).arg((int)(tower->getPower() * (tower->MULTIPLIERPOWER - 1))));
+        radius->setText(QString("Radius: %1 (+%2)").arg(tower->getRadius()).arg((int)(tower->getRadius() * (tower->MULTIPLIERRADIUS - 1))));
         sell->setText(QString("Sell %1").arg(tower->getSalePrice()));
 
         upgrade->setText(QString("Upgrade %1").arg(costUp));

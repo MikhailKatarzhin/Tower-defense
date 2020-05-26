@@ -1,4 +1,5 @@
 #include "level.h"
+#include "tower.h"
 
 Level::Level(Map & _map, QWidget *parent)
 {
@@ -101,7 +102,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     // тут берется последний item eventa мышки и кастуется в башню
     TowerPlace * place = dynamic_cast<TowerPlace*>(items(event->scenePos()).last());
-    Tower * tow = dynamic_cast<Tower*>(items(event->scenePos()).last());
+    ITower * tow = dynamic_cast<ITower*>(items(event->scenePos()).last());
     clearSelection();
     // тут обрабатывается клик и мстроится башня
     // либо отмена
@@ -118,7 +119,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         if (building && place)
         {
-            Tower * tower = new Tower();
+            ITower * tower = new Tower();
             tower->setPos(place->scenePos());
             this->addItem(tower);
             this->removeItem(place);

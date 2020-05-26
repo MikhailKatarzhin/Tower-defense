@@ -1,7 +1,7 @@
 #pragma once
 #include <QGraphicsView>
 #include "map.h"
-#include "tower.h"
+#include "tower/ITower.h"
 #include "towerplace.h"
 
 class Level : public QGraphicsScene
@@ -13,7 +13,7 @@ public:
     void createPlace(QPointF);
 signals:
     void successBuild(int);
-    void setUI(Tower* tower = nullptr);
+    void setUI(ITower* tower = nullptr);
 public slots:
     void createTower();
 private:

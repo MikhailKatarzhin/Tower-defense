@@ -68,6 +68,7 @@ HEADERS += \
     menu.h \
     level.h \
     bullet.h \
+    tower/ITower.h \
     uiobject.h \
     towerplace.h \
     buildingui.h \

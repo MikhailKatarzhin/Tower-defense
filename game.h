@@ -36,7 +36,7 @@ public slots:
     void reduceMoney(int);
     void sellTower();
 
-    void selectTower(Tower *tower = nullptr);
+    void selectTower(ITower *tower = nullptr);
     void upgradeTower();
 
 private slots:
@@ -44,7 +44,7 @@ private slots:
 
 private:
     IEnemyFactory *enemyFactory;
-    Tower * selectedTower;
+    ITower * selectedTower;
     QMediaPlayer *music;
     ILevelParser*  levelParser;
     QTimer * spawnTimer;

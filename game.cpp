@@ -48,14 +48,14 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     enemies = 10 + wave * 2;
     currentEnemy = 0;
     lifes = 10;
-    money = 100;
+    money = 10000000;
     //********************//
 
 
     //****SIGNALS****//
     connect(this, SIGNAL(changeMoney(int)), &build_ui, SLOT(setPossible(int)));
     connect(this, SIGNAL(changeMoney(int)), towerUI, SLOT(setMoney(int)));
-    connect(level,SIGNAL(setUI(Tower*)), this, SLOT(selectTower(Tower*)));
+    connect(level,SIGNAL(setUI(ITower*)), this, SLOT(selectTower(ITower*)));
     connect(level, SIGNAL(successBuild(int)), this, SLOT(reduceMoney(int)));
     connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
 
@@ -158,7 +158,7 @@ void Game::reduceMoney(int cash)
     emit changeMoney(money);
 }
 
-void Game::selectTower(Tower * tower)
+void Game::selectTower(ITower * tower)
 {
     selectedTower = tower;
     towerUI->setUi(selectedTower);

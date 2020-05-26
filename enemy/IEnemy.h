@@ -1,5 +1,4 @@
-#ifndef IENEMY_H
-#define IENEMY_H
+#pragma once
 
 #include <QGraphicsObject>
 
@@ -18,4 +17,3 @@ signals:
     virtual void win() = 0;
 };
 
-#endif // IENEMY_H

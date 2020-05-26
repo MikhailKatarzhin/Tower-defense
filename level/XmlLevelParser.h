@@ -1,6 +1,4 @@
-#ifndef XMLLEVELPARSER_H
-#define XMLLEVELPARSER_H
-
+#pragma once
 #include <QString>
 #include "ILevelParser.h"
 
@@ -24,5 +22,3 @@ private:
     Map* map;
     Road* road;
 };
-
-#endif // XMLLEVELPARSER_H

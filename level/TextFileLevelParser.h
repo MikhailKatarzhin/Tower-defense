@@ -1,5 +1,4 @@
-#ifndef TEXTFILELEVELPARSER_H
-#define TEXTFILELEVELPARSER_H
+#pragma once
 
 #include <QString>
 #include "ILevelParser.h"
@@ -27,5 +26,3 @@ private:
     bool parseLineOfMap(QString mapLine, int lineNumber);
     bool parseRoadLine(QString roadLine);
 };
-
-#endif // TEXTFILELEVELPARSER_H

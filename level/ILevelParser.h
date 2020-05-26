@@ -1,6 +1,4 @@
-#ifndef ILEVELPARSER_H
-#define ILEVELPARSER_H
-
+#pragma once
 #include "map.h"
 #include "road.h"
 
@@ -15,5 +13,3 @@ public:
     // The method for provide main road.
     virtual Road& getRoad() = 0;
 };
-
-#endif // ILEVELPARSER_H

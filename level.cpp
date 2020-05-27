@@ -72,11 +72,12 @@ void Level::renderMap()
     }
 }
 
-void Level::createTower()
+void Level::createTower(ITower * tower)
 {
+    this->tower = tower;
     if (build_curs) removeItem(build_curs);
     build_curs = new QGraphicsPixmapItem();
-    build_curs->setPixmap(QPixmap(":/res/images/Tower.png"));
+    build_curs->setPixmap(*(tower->getSprite()));
     build_curs->hide();
     addItem(build_curs);
     building = true;
@@ -102,16 +103,12 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
     // тут обрабатывается клик и строится башня
     // либо отмена
 
-    // кароч тут после строительства думают стоит кидать сигнал на который враги будут пересчитывать путь
-
-    // ИДЕЯ
-    // Модифицировать алгоритм A* так что если поле под атакой башни то +1 в этой клетке
-    // Если 2 башни атакуют клетку то +2 соответственно
     if(event->button() == Qt::LeftButton)
     {
-        if (building && place)
+        if (building == true && place!= nullptr)
         {
-            ITower * tower = new Tower();
+            ITower * tower = this->tower;
+            this->tower = nullptr;
             tower->setPos(place->scenePos());
             this->addItem(tower);
             this->removeItem(place);

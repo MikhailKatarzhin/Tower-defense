@@ -3,8 +3,6 @@
 
 Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelParser)
 {
-    // switch difficult
-    // emenyFacrory = HardFactory // for example
 
     //****Background image****//
     QPalette pal;
@@ -57,7 +55,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     connect(this, SIGNAL(changeMoney(int)), towerUI, SLOT(setMoney(int)));
     connect(level,SIGNAL(setUI(ITower*)), this, SLOT(selectTower(ITower*)));
     connect(level, SIGNAL(successBuild(int)), this, SLOT(reduceMoney(int)));
-    connect(&build_ui, SIGNAL(build()), level, SLOT(createTower()));
+    connect(&build_ui, SIGNAL(build(ITower*)), level, SLOT(createTower(ITower*)));
 
     emit change_enemy(enemies);
     emit change_lifes(lifes);

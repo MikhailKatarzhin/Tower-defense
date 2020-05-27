@@ -15,13 +15,14 @@ signals:
     void successBuild(int);
     void setUI(ITower* tower = nullptr);
 public slots:
-    void createTower();
+    void createTower(ITower * tower);
 private:
     Map map;
     QGraphicsPixmapItem* build_curs;
     bool building;
     int lvl_h;
     int lvl_w;
+    ITower * tower;
     void renderMap();
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

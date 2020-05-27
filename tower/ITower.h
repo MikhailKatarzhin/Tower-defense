@@ -12,6 +12,8 @@ public:
     virtual float   getMULTIPLIERPOWER() = 0;
     virtual float   getMULTIPLIERCOST() = 0;
     virtual int     getBASECOST() = 0;
+    virtual int     getBASEPOWER() = 0;
+    virtual int     getBASERADIUS() = 0;
 
     virtual void setArea() = 0;
     virtual void fire() = 0;
@@ -23,6 +25,7 @@ public:
     virtual int getCost() = 0;
     virtual int getSalePrice() = 0;
 
+    virtual ITower * copyTower() = 0;
 signals:
     virtual void updateTower(ITower*) = 0;
 

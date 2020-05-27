@@ -1,20 +1,20 @@
 #include "uiobject.h"
 
-UiObject::UiObject(QWidget * parent)
+UiObject::UiObject(QWidget * parent, ITower * tower)
 {
-    cost = 50;
-    sprite = new QPixmap(":/res/images/Tower.png"); // удалить и вынести
+    sprite = new QPixmap(*(tower->getSprite()));
+    this->tower = tower;
     this->setPixmap(*sprite);
     this->setFixedSize(sprite->width(),sprite->height());
 }
 
-int UiObject::getCost()
+ITower* UiObject::getTower()
 {
-    return cost;
+    return tower;
 }
 
 void UiObject::mousePressEvent(QMouseEvent *event)
 {
-    emit create();
+    emit create(tower->copyTower());
 }
 

@@ -1,30 +1,24 @@
 #include "buildingui.h"
-
+#include "tower.h"
 BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
 {
     v_box.setAlignment(Qt::AlignTop);
 
     QLabel * name = new QLabel("<b>Towers:<b>");
-    UiObject * obj = new UiObject();
-    QLabel * cost = new QLabel(QString("Cost: %1").arg(obj->getCost()));
-    QLabel * radius = new QLabel("Radius: 200");
-    QLabel * power = new QLabel( QString("Power: 30"));
-
     v_box.addWidget(name);
+
+
+    UiObject * obj =    new UiObject(nullptr, new Tower());
+    QLabel * cost =     new QLabel(QString("Cost: %1").arg(obj->getTower()->getBASECOST()));
+    QLabel * radius =   new QLabel(QString("Radius: %1").arg(obj->getTower()->getBASERADIUS()));
+    QLabel * power =    new QLabel(QString("Power: %1").arg(obj->getTower()->getBASEPOWER()));
+
+    connect(obj, SIGNAL(create(ITower*)), this, SLOT(sendBuild(ITower*)));
 
     list.push_back(obj);
     list.push_back(cost);
     list.push_back(radius);
     list.push_back(power);
-    // Сделать QListWidget
-    // В сигналы create() build()
-    // и  слоты sendBuild() Level::createTowet()
-    // передавать UiObject
-    // Сделать у него возможность вытащить спрайт и использовать его в
-    // Level::createTower(*object)
-
-    // когда на UiObjest кликают то срабатывает create() -> sendBuild()
-    connect(obj, SIGNAL(create()), this, SLOT(sendBuild()));
 
     for(auto wgt : list)
     {
@@ -34,9 +28,9 @@ BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
     this->setLayout(&v_box);
 }
 
-void BuildingUI::sendBuild()
+void BuildingUI::sendBuild(ITower* tower)
 {
-    emit build();
+    emit build(tower);
 }
 
 void BuildingUI::setPossible(int money)
@@ -45,7 +39,7 @@ void BuildingUI::setPossible(int money)
     {
         if (UiObject * obj = dynamic_cast<UiObject*>(i))
         {
-            if(money < obj->getCost())
+            if(money < obj->getTower()->getBASECOST())
             {
                 i->setEnabled(false);
             }
@@ -56,5 +50,3 @@ void BuildingUI::setPossible(int money)
         }
     }
 }
-
-

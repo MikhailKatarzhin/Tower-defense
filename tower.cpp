@@ -24,6 +24,8 @@ void Tower::setArea()
 
 void Tower::chooseEnemy()
 {
+    if(area == nullptr)
+        return;
     QList<QGraphicsItem *> colliding_items = area->collidingItems(Qt::IntersectsItemShape);
 
     int max = 0;
@@ -120,12 +122,23 @@ void Tower::fire()
     target->damaged(power);
 }
 
+ITower * Tower::copyTower()
+{
+    Tower *tower = new Tower();
+    tower->sprite    = this->sprite;
+    tower->radius    = this->radius;
+    tower->power     = this->power;
+    tower->cost      = this->cost;
+    tower->radius    = this->radius;
+    tower->level     = this->level;
+    tower->salePrice = this->salePrice;
+    return tower;
+}
 
 float Tower::getMULTIPLIERRADIUS()
 {
     return MULTIPLIERRADIUS;
 }
-
 float Tower::getMULTIPLIERPOWER()
 {
     return MULTIPLIERPOWER;
@@ -137,6 +150,14 @@ float Tower::getMULTIPLIERCOST()
 int Tower::getBASECOST()
 {
     return BASECOST;
+}
+int Tower::getBASEPOWER()
+{
+    return BASEPOWER;
+}
+int Tower::getBASERADIUS()
+{
+    return BASERADIUS;
 }
 
 QPixmap* Tower::getSprite()

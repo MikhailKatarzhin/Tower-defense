@@ -23,11 +23,14 @@ public:
     float   getMULTIPLIERPOWER();
     float   getMULTIPLIERCOST();
     int     getBASECOST();
+    int     getBASEPOWER();
+    int     getBASERADIUS();
 
     Tower(QGraphicsObject * parent = nullptr);
 
     void setArea();
     void fire();
+    ITower * copyTower();
 
     QPixmap* getSprite();
     int getLevel();

@@ -10,7 +10,7 @@ EasyEnemyFactory::EasyEnemyFactory()
 IEnemy* EasyEnemyFactory::createEnemy(Road _way, int wave)
 {
     srand(time(0));
-    switch (rand() % 10)
+    switch (rand() % 15)
     {
     case 1:
     case 3:

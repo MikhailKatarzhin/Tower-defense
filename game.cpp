@@ -20,7 +20,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
     music = new QMediaPlayer(this);
     music->setPlaylist(playlist);
-    music->setVolume(15);
+    music->setVolume(5);
     music->play();
     //********************//
 
@@ -45,8 +45,8 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     wave = 0;
     enemies = 10 + wave * 2;
     currentEnemy = 0;
-    lifes = 10;
-    money = 10000000;
+    lifes = 15;
+    money = 250;
     //********************//
 
 
@@ -155,10 +155,19 @@ void Game::sellTower()
 
 void Game::createEnemies()
 {
+    ++wave;
+    emit change_wave(wave);
+    ++lifes;
+    emit change_lifes(lifes);
+    money += lifes * wave * 5;
+    emit changeMoney(money);
     emit btn_wave(false);
     spawnTimer = new  QTimer();
     connect(spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
-    spawnTimer->start(800); // todo can set enemy creation duration
+    if(wave < 100)
+        spawnTimer->start(1000 - 9 * wave);
+    else
+        spawnTimer->start(100);
 }
 
 void Game::spawnEnemy()
@@ -177,11 +186,6 @@ void Game::spawnEnemy()
         spawnTimer->disconnect();
         currentEnemy = 0;
         emit btn_wave(true);
-        ++wave;
-        emit change_wave(wave);
-        ++lifes;
-        emit change_lifes(lifes);
-        money += lifes * wave;
         enemies += 10 + wave * 2;
     }
 }

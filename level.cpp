@@ -96,12 +96,9 @@ void Level::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // тут берется последний item eventa мышки и кастуется в башню
     TowerPlace * place = dynamic_cast<TowerPlace*>(items(event->scenePos()).last());
     ITower * tow = dynamic_cast<ITower*>(items(event->scenePos()).last());
     clearSelection();
-    // тут обрабатывается клик и строится башня
-    // либо отмена
 
     if(event->button() == Qt::LeftButton)
     {
@@ -121,35 +118,35 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
             tower->setSelected(true);
             emit setUI(tower);
             emit successBuild(tower->getCost());
-       }
+            return;
+        }
 
-        else if (building && !place)
+        if (building == true && place == nullptr)
         {
             QGraphicsScene::mousePressEvent(event);
+            return;
         }
-        else if(tow)
+
+        if(tow != nullptr && (!tow->isSelected()))
         {
-            if(!tow->isSelected())
-            {
-                clearSelection();
-                tow->setSelected(true);
-                emit setUI(tow);
-            }
+            clearSelection();
+            tow->setSelected(true);
+            emit setUI(tow);
+            return;
         }
-        else { emit setUI(nullptr);}
+        emit setUI(nullptr);
+        return;
     }
-    else if (event->button() == Qt::RightButton)
+
+    if (event->button() == Qt::RightButton)
     {
-        if (building && build_curs->isVisible())
+        if (building == true && build_curs->isVisible())
         {
             clearSelection();
             removeItem(build_curs);
             building = false;
-            QGraphicsScene::mousePressEvent(event);
         }
-        else {
-            QGraphicsScene::mousePressEvent(event);
-        }
+        QGraphicsScene::mousePressEvent(event);
     }
 }
 

@@ -61,7 +61,7 @@ void TowerUI::setUi(ITower * tower)
         power->setText("Power: ");
         radius->setText("Radius: ");
         level->setText("Level: ");
-
+        firingRate->setText("Shoot per sec: ");
     }
 }
 

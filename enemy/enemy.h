@@ -15,6 +15,7 @@ public:
     ~Enemy();
     int getPoint() override;
     int getpassedWay()override;
+    int getSpeed();
     void damaged(int)override;
 
 protected:

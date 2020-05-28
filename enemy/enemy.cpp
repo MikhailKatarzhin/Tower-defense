@@ -77,6 +77,10 @@ int Enemy::getpassedWay()
 {
     return  passedWay;
 }
+int Enemy::getSpeed()
+{
+    return speed;
+}
 
 void Enemy::damaged(int damage)
 {

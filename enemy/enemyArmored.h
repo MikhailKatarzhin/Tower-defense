@@ -15,6 +15,7 @@ public:
     ~EnemyArmored();
     int getPoint();
     int getpassedWay();
+    int getSpeed();
     void damaged(int);
 
 protected:

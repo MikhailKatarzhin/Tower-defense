@@ -1,6 +1,6 @@
-#include "tower/tower.h"
+#include "towerRapidFire.h"
 
-Tower::Tower(QGraphicsObject *parent)
+TowerRapidFire::TowerRapidFire(QGraphicsObject *parent)
 {
     area    = nullptr;
 
@@ -15,14 +15,14 @@ Tower::Tower(QGraphicsObject *parent)
     detecter->start(1000/firingRate);
 }
 
-void Tower::setArea()
+void TowerRapidFire::setArea()
 {
     centerX = scenePos().x() + l_centerX;
     centerY = scenePos().y() + l_centerY;
     area->setPos(centerX-radius/2, centerY-radius/2);
 }
 
-void Tower::chooseEnemy()
+void TowerRapidFire::chooseEnemy()
 {
     if(area == nullptr)
         return;
@@ -34,11 +34,11 @@ void Tower::chooseEnemy()
     {
         IEnemy *enemy = dynamic_cast<IEnemy *>(colliding_items[i]);
 
-        //выбирает в цель врага с самым большим пройденным путём
+        //выбирает в цель врага с самой высокой скоростью передвижения
 
-        if(enemy && enemy->getpassedWay() > max)
+        if(enemy && enemy->getSpeed() > max)
         {
-            max = enemy->getpassedWay();
+            max = enemy->getSpeed();
             target = enemy;
         }
     }
@@ -50,7 +50,7 @@ void Tower::chooseEnemy()
     }
 }
 
-void Tower::upgrade()
+void TowerRapidFire::upgrade()
 {
     if(!isSelected())
     {
@@ -109,7 +109,7 @@ void Tower::upgrade()
 
 }
 
-void Tower::fire()
+void TowerRapidFire::fire()
 {
     Bullet* bullet = new Bullet(this);
     bullet->setPos(centerX, centerY);
@@ -122,9 +122,9 @@ void Tower::fire()
     target->damaged(power);
 }
 
-ITower * Tower::copyTower()
+ITower * TowerRapidFire::copyTower()
 {
-    Tower *tower = new Tower();
+    TowerRapidFire *tower = new TowerRapidFire();
     tower->sprite    = this->sprite;
     tower->radius    = this->radius;
     tower->power     = this->power;
@@ -136,82 +136,82 @@ ITower * Tower::copyTower()
     return tower;
 }
 
-float Tower::getMULTIPLIERRADIUS()
+float TowerRapidFire::getMULTIPLIERRADIUS()
 {
     return MULTIPLIERRADIUS;
 }
-float Tower::getMULTIPLIERPOWER()
+float TowerRapidFire::getMULTIPLIERPOWER()
 {
     return MULTIPLIERPOWER;
 }
-float Tower::getMULTIPLIERCOST()
+float TowerRapidFire::getMULTIPLIERCOST()
 {
     return MULTIPLIERCOST;
 }
-float Tower::getMULTIPLIERFIRINGRATE()
+float TowerRapidFire::getMULTIPLIERFIRINGRATE()
 {
     return MULTIPLIERFIRINGRATE;
 }
 
-float Tower::getBASEFIRINGRATE()
+float TowerRapidFire::getBASEFIRINGRATE()
 {
     return BASEFIRINGRATE;
 }
-int Tower::getBASECOST()
+int TowerRapidFire::getBASECOST()
 {
     return BASECOST;
 }
-int Tower::getBASEPOWER()
+int TowerRapidFire::getBASEPOWER()
 {
     return BASEPOWER;
 }
-int Tower::getBASERADIUS()
+int TowerRapidFire::getBASERADIUS()
 {
     return BASERADIUS;
 }
 
-QPixmap* Tower::getSprite()
+QPixmap* TowerRapidFire::getSprite()
 {
     return sprite;
 }
-int Tower::getLevel()
+int TowerRapidFire::getLevel()
 {
     return level;
 }
-int Tower::getPower()
+int TowerRapidFire::getPower()
 {
     return power;
 }
-int Tower::getRadius()
+int TowerRapidFire::getRadius()
 {
     return radius;
 }
-int Tower::getCost()
+int TowerRapidFire::getCost()
 {
     return cost;
 }
-int Tower::getSalePrice()
+int TowerRapidFire::getSalePrice()
 {
     return salePrice;
 }
-float Tower::getFiringRate()
+float TowerRapidFire::getFiringRate()
 {
     return firingRate;
 }
 
-Tower::~Tower()
+TowerRapidFire::~TowerRapidFire()
 {
     delete sprite;
     delete area;
     delete detecter;
 }
 
-QRectF Tower::boundingRect() const
+QRectF TowerRapidFire::boundingRect() const
 {
     return QRectF(0, 0, sprite->width(), sprite->height());
 }
 
-void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TowerRapidFire::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     if(area == nullptr)
     {
@@ -234,7 +234,7 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 }
 
-void Tower::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void TowerRapidFire::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     if(!area->isVisible())
     {
@@ -243,7 +243,7 @@ void Tower::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsItem::hoverEnterEvent(event);
 }
 
-void Tower::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void TowerRapidFire::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     if(area->isVisible())
     {

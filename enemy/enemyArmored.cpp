@@ -81,7 +81,10 @@ int EnemyArmored::getpassedWay()
 {
     return  passedWay;
 }
-
+int EnemyArmored::getSpeed()
+{
+    return speed;
+}
 void EnemyArmored::damaged(int damage)
 {
     current_hp -=damage;

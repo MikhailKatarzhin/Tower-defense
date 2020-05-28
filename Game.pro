@@ -36,6 +36,7 @@ SOURCES += \
     level/XmlLevelParser.cpp \
     tower/buildingui.cpp \
     tower/tower.cpp \
+    tower/towerAntiArmor.cpp \
     tower/towerRapidFire.cpp \
     tower/towerarea.cpp \
     tower/towerui.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     tower/buildingui.h \
     tower/ITower.h \
     tower/tower.h \
+    tower/towerAntiArmor.h \
     tower/towerRapidFire.h \
     tower/towerarea.h \
     tower/towerui.h \

@@ -86,6 +86,11 @@ int EnemyRunner::getSpeed()
 {
     return speed;
 }
+int EnemyRunner::getArmor()
+{
+    return  armor;
+}
+
 
 void EnemyRunner::damaged(int damage)
 {

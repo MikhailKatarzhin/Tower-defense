@@ -102,10 +102,7 @@ void TowerRapidFire::upgrade()
         }
         case 20:
         {
-            delete sprite;
-            sprite = new QPixmap(":/res/images/Tower3.png");
             power   *= 3;
-            update();
             break;
         }
         default: break;

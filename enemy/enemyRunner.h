@@ -16,6 +16,7 @@ public:
     int getPoint();
     int getpassedWay();
     int getSpeed();
+    int getArmor();
     void damaged(int);
 
 protected:

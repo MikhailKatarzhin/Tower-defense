@@ -82,6 +82,10 @@ int Enemy::getSpeed()
 {
     return speed;
 }
+int Enemy::getArmor()
+{
+    return  armor;
+}
 
 void Enemy::damaged(int damage)
 {

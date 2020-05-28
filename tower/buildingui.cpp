@@ -1,6 +1,7 @@
 #include "tower/buildingui.h"
 #include "tower/tower.h"
 #include "tower/towerRapidFire.h"
+#include "tower/towerAntiArmor.h"
 BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
 {
     v_box.setAlignment(Qt::AlignTop);
@@ -36,6 +37,19 @@ BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
     list.push_back(radiusRFT);
     list.push_back(powerRFT);
     list.push_back(firingRateRFT);
+    UiObject * towerAntiArmor =    new UiObject(nullptr, new TowerAntiArmor());
+    QLabel * costTAA =     new QLabel(QString("Cost: %1").arg(towerAntiArmor->getTower()->getBASECOST()));
+    QLabel * radiusTAA =   new QLabel(QString("Radius: %1").arg(towerAntiArmor->getTower()->getBASERADIUS()));
+    QLabel * powerTAA =    new QLabel(QString("Power: %1").arg(towerAntiArmor->getTower()->getBASEPOWER()));
+    QLabel * firingRateTAA =    new QLabel(QString("Shoot per sec: %1").arg(towerAntiArmor->getTower()->getBASEFIRINGRATE()));
+
+    connect(towerAntiArmor, SIGNAL(create(ITower*)), this, SLOT(sendBuild(ITower*)));
+
+    list.push_back(towerAntiArmor);
+    list.push_back(costTAA);
+    list.push_back(radiusTAA);
+    list.push_back(powerTAA);
+    list.push_back(firingRateTAA);
 
     for(auto wgt : list)
     {

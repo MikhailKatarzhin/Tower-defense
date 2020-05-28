@@ -1,6 +1,6 @@
-#include "tower/tower.h"
+#include "tower/towerAntiArmor.h"
 
-Tower::Tower(QGraphicsObject *parent)
+TowerAntiArmor::TowerAntiArmor(QGraphicsObject *parent)
 {
     area    = nullptr;
 
@@ -15,20 +15,21 @@ Tower::Tower(QGraphicsObject *parent)
     detecter->start(1000/firingRate);
 }
 
-void Tower::setArea()
+void TowerAntiArmor::setArea()
 {
     centerX = scenePos().x() + l_centerX;
     centerY = scenePos().y() + l_centerY;
     area->setPos(centerX-radius/2, centerY-radius/2);
 }
 
-void Tower::chooseEnemy()
+void TowerAntiArmor::chooseEnemy()
 {
     if(area == nullptr)
         return;
     QList<QGraphicsItem *> colliding_items = area->collidingItems(Qt::IntersectsItemShape);
 
-    int max = 0;
+    int maxArmor = 0;
+    int maxPassedWay = 0;
 
     for (int i = 0, n = colliding_items.size(); i < n; ++i)
     {
@@ -36,21 +37,26 @@ void Tower::chooseEnemy()
 
         //выбирает в цель врага с самым большим пройденным путём
 
-        if(enemy && enemy->getpassedWay() > max)
+        if(enemy && enemy->getArmor() > maxArmor)
         {
-            max = enemy->getpassedWay();
+            maxArmor = enemy->getArmor();
+            maxPassedWay = enemy->getpassedWay();
+            target = enemy;
+        }else if(enemy && enemy->getArmor() == maxArmor && enemy->getpassedWay() > maxPassedWay)
+        {
+            maxPassedWay = enemy->getpassedWay();
             target = enemy;
         }
     }
 
-    if(max)
+    if(maxPassedWay)
     {
         enemyPlace = QPointF(target->pos());
         fire();
     }
 }
 
-void Tower::upgrade()
+void TowerAntiArmor::upgrade()
 {
     if(!isSelected())
     {
@@ -106,7 +112,7 @@ void Tower::upgrade()
 
 }
 
-void Tower::fire()
+void TowerAntiArmor::fire()
 {
     Bullet* bullet = new Bullet(this);
     bullet->setPos(centerX, centerY);
@@ -119,9 +125,9 @@ void Tower::fire()
     target->damaged(power);
 }
 
-ITower * Tower::copyTower()
+ITower * TowerAntiArmor::copyTower()
 {
-    Tower *tower = new Tower();
+    TowerAntiArmor *tower = new TowerAntiArmor();
     tower->sprite    = this->sprite;
     tower->radius    = this->radius;
     tower->power     = this->power;
@@ -133,82 +139,82 @@ ITower * Tower::copyTower()
     return tower;
 }
 
-float Tower::getMULTIPLIERRADIUS()
+float TowerAntiArmor::getMULTIPLIERRADIUS()
 {
     return MULTIPLIERRADIUS;
 }
-float Tower::getMULTIPLIERPOWER()
+float TowerAntiArmor::getMULTIPLIERPOWER()
 {
     return MULTIPLIERPOWER;
 }
-float Tower::getMULTIPLIERCOST()
+float TowerAntiArmor::getMULTIPLIERCOST()
 {
     return MULTIPLIERCOST;
 }
-float Tower::getMULTIPLIERFIRINGRATE()
+float TowerAntiArmor::getMULTIPLIERFIRINGRATE()
 {
     return MULTIPLIERFIRINGRATE;
 }
 
-float Tower::getBASEFIRINGRATE()
+float TowerAntiArmor::getBASEFIRINGRATE()
 {
     return BASEFIRINGRATE;
 }
-int Tower::getBASECOST()
+int TowerAntiArmor::getBASECOST()
 {
     return BASECOST;
 }
-int Tower::getBASEPOWER()
+int TowerAntiArmor::getBASEPOWER()
 {
     return BASEPOWER;
 }
-int Tower::getBASERADIUS()
+int TowerAntiArmor::getBASERADIUS()
 {
     return BASERADIUS;
 }
 
-QPixmap* Tower::getSprite()
+QPixmap* TowerAntiArmor::getSprite()
 {
     return sprite;
 }
-int Tower::getLevel()
+int TowerAntiArmor::getLevel()
 {
     return level;
 }
-int Tower::getPower()
+int TowerAntiArmor::getPower()
 {
     return power;
 }
-int Tower::getRadius()
+int TowerAntiArmor::getRadius()
 {
     return radius;
 }
-int Tower::getCost()
+int TowerAntiArmor::getCost()
 {
     return cost;
 }
-int Tower::getSalePrice()
+int TowerAntiArmor::getSalePrice()
 {
     return salePrice;
 }
-float Tower::getFiringRate()
+float TowerAntiArmor::getFiringRate()
 {
     return firingRate;
 }
 
-Tower::~Tower()
+TowerAntiArmor::~TowerAntiArmor()
 {
     delete sprite;
     delete area;
     delete detecter;
 }
 
-QRectF Tower::boundingRect() const
+QRectF TowerAntiArmor::boundingRect() const
 {
     return QRectF(0, 0, sprite->width(), sprite->height());
 }
 
-void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TowerAntiArmor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     if(area == nullptr)
     {
@@ -231,7 +237,7 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 }
 
-void Tower::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void TowerAntiArmor::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     if(!area->isVisible())
     {
@@ -240,7 +246,7 @@ void Tower::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsItem::hoverEnterEvent(event);
 }
 
-void Tower::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void TowerAntiArmor::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     if(area->isVisible())
     {

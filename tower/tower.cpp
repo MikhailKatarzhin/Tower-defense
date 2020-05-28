@@ -1,4 +1,4 @@
-#include "tower.h"
+#include "tower/tower.h"
 
 Tower::Tower(QGraphicsObject *parent)
 {
@@ -12,7 +12,7 @@ Tower::Tower(QGraphicsObject *parent)
 
     detecter = new QTimer();
     connect(detecter, SIGNAL(timeout()), this, SLOT(chooseEnemy()));
-    detecter->start(1000);
+    detecter->start(1000/firingRate);
 }
 
 void Tower::setArea()
@@ -24,6 +24,8 @@ void Tower::setArea()
 
 void Tower::chooseEnemy()
 {
+    if(area == nullptr)
+        return;
     QList<QGraphicsItem *> colliding_items = area->collidingItems(Qt::IntersectsItemShape);
 
     int max = 0;
@@ -81,23 +83,20 @@ void Tower::upgrade()
         else
             salePrice = INT_MAX;
 
+        firingRate *= MULTIPLIERFIRINGRATE;
+        detecter->start(1000/firingRate);
+
         switch (level)
         {
         case 5:
         {
-            delete sprite;
-            sprite = new QPixmap(":/res/images/Tower2.png");
             power   *= 2;
-            update();
             break;
 
         }
         case 20:
         {
-            delete sprite;
-            sprite = new QPixmap(":/res/images/Tower3.png");
             power   *= 3;
-            update();
             break;
         }
         default: break;
@@ -120,12 +119,24 @@ void Tower::fire()
     target->damaged(power);
 }
 
+ITower * Tower::copyTower()
+{
+    Tower *tower = new Tower();
+    tower->sprite    = this->sprite;
+    tower->radius    = this->radius;
+    tower->power     = this->power;
+    tower->cost      = this->cost;
+    tower->radius    = this->radius;
+    tower->level     = this->level;
+    tower->salePrice = this->salePrice;
+    tower->firingRate= this->firingRate;
+    return tower;
+}
 
 float Tower::getMULTIPLIERRADIUS()
 {
     return MULTIPLIERRADIUS;
 }
-
 float Tower::getMULTIPLIERPOWER()
 {
     return MULTIPLIERPOWER;
@@ -134,39 +145,55 @@ float Tower::getMULTIPLIERCOST()
 {
     return MULTIPLIERCOST;
 }
+float Tower::getMULTIPLIERFIRINGRATE()
+{
+    return MULTIPLIERFIRINGRATE;
+}
+
+float Tower::getBASEFIRINGRATE()
+{
+    return BASEFIRINGRATE;
+}
 int Tower::getBASECOST()
 {
     return BASECOST;
+}
+int Tower::getBASEPOWER()
+{
+    return BASEPOWER;
+}
+int Tower::getBASERADIUS()
+{
+    return BASERADIUS;
 }
 
 QPixmap* Tower::getSprite()
 {
     return sprite;
 }
-
 int Tower::getLevel()
 {
     return level;
 }
-
 int Tower::getPower()
 {
     return power;
 }
-
 int Tower::getRadius()
 {
     return radius;
 }
-
 int Tower::getCost()
 {
     return cost;
 }
-
 int Tower::getSalePrice()
 {
     return salePrice;
+}
+float Tower::getFiringRate()
+{
+    return firingRate;
 }
 
 Tower::~Tower()

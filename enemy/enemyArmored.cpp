@@ -3,17 +3,18 @@
 
 EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
 {
-    passedWay = 0;
-    sprite = new QPixmap(":/res/images/EnemyArmored.png");
-    max_hp = 175 * pow(1.25, wave);
-    current_hp = max_hp;
-    speed = 1500 * pow(0.995, wave);
-    point = 1;
-    prize =8 * pow(1.1, wave);
+    passedWay   = 0;
+    sprite      = new QPixmap(":/res/images/EnemyArmored.png");
+    max_hp      = 175 * pow(1.25, wave);
+    current_hp  = max_hp;
+    speed       = 400 * pow(1.005, wave);
+    armor       = 6 * pow(1.1, wave);
+    point       = 1;
+    prize       = 8 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     lifes = new QTimer();
     connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
-    lifes->start(speed / 45);
+    lifes->start(10000 / speed);
 }
 
 void EnemyArmored::move()
@@ -81,10 +82,19 @@ int EnemyArmored::getpassedWay()
 {
     return  passedWay;
 }
-
+int EnemyArmored::getSpeed()
+{
+    return speed;
+}
+int EnemyArmored::getArmor()
+{
+    return  armor;
+}
 void EnemyArmored::damaged(int damage)
 {
-    current_hp -=damage;
+    damage -= armor;
+    if(damage >= 0)
+        current_hp -=damage;
 
     if(current_hp <= 0 )
     {

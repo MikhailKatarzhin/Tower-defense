@@ -1,6 +1,7 @@
 #pragma once
 #include <QWidget>
-#include "uiobject.h"
+#include "tower/uiobject.h"
+#include "tower/ITower.h"
 
 /**
  * @brief The BuildingUI class
@@ -18,10 +19,10 @@ private:
     QWidgetList list;
 
 public slots:
-    void sendBuild();
+    void sendBuild(ITower*);
     void setPossible(int money);
 
 signals:
-    void build();
+    void build(ITower*);
 };
 

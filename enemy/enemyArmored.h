@@ -15,6 +15,8 @@ public:
     ~EnemyArmored();
     int getPoint();
     int getpassedWay();
+    int getSpeed();
+    int getArmor();
     void damaged(int);
 
 protected:
@@ -40,6 +42,7 @@ private:
     int max_hp;
     int current_hp;
     int speed;
+    int armor;
     double dy;
     double dx;
 };

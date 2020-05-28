@@ -3,8 +3,8 @@
 #include <QtWidgets>
 #include <QtMultimedia>
 #include "level.h"
-#include "buildingui.h"
-#include "towerui.h"
+#include "tower/buildingui.h"
+#include "tower/towerui.h"
 #include "hud.h"
 #include "enemy/IEnemyFactory.h"
 #include "level/ILevelParser.h"

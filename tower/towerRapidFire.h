@@ -16,10 +16,10 @@ public:
     const float MULTIPLIERPOWER     = 1.5;
     const float MULTIPLIERCOST      = 2.15;
     const float MULTIPLIERFIRINGRATE= 1.3;
-    const float BASEFIRINGRATE      = 4;
+    const float BASEFIRINGRATE      = 5;
     const int   BASECOST            = 80;
-    const int   BASERADIUS          = 100;
-    const int   BASEPOWER           = 5;
+    const int   BASERADIUS          = 130;
+    const int   BASEPOWER           = 7;
 
     float   getMULTIPLIERRADIUS();
     float   getMULTIPLIERPOWER();

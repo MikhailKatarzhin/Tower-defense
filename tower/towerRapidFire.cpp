@@ -28,7 +28,8 @@ void TowerRapidFire::chooseEnemy()
         return;
     QList<QGraphicsItem *> colliding_items = area->collidingItems(Qt::IntersectsItemShape);
 
-    int max = 0;
+    int maxSpeed = 0;
+    int maxPassedWay = 0;
 
     for (int i = 0, n = colliding_items.size(); i < n; ++i)
     {
@@ -36,14 +37,19 @@ void TowerRapidFire::chooseEnemy()
 
         //выбирает в цель врага с самой высокой скоростью передвижения
 
-        if(enemy && enemy->getSpeed() > max)
+        if(enemy && enemy->getSpeed() > maxSpeed)
         {
-            max = enemy->getSpeed();
+            maxSpeed = enemy->getSpeed();
+            maxPassedWay = enemy->getpassedWay();
+            target = enemy;
+        }else if(enemy && enemy->getSpeed() == maxSpeed && enemy->getpassedWay() > maxPassedWay)
+        {
+            maxPassedWay = enemy->getpassedWay();
             target = enemy;
         }
     }
 
-    if(max)
+    if(maxSpeed)
     {
         enemyPlace = QPointF(target->pos());
         fire();

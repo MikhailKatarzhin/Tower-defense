@@ -7,13 +7,14 @@ EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
     sprite = new QPixmap(":/res/images/EnemyRunner.png");
     max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
-    speed = 900 * pow(0.95, wave);
+    speed = 550 * pow(1.05, wave);
+    armor = 0;
     point = 1;
     prize = 7 * pow(1.1, wave);
     this->setPos(way.getStart().x(), way.getStart().y());
     lifes = new QTimer();
     connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
-    lifes->start(speed / 55);
+    lifes->start(10000/ speed);
 }
 
 void EnemyRunner::move()
@@ -88,7 +89,9 @@ int EnemyRunner::getSpeed()
 
 void EnemyRunner::damaged(int damage)
 {
-    current_hp -=damage;
+    damage -= armor;
+    if(damage >= 0)
+        current_hp -=damage;
 
     if(current_hp <= 0 )
     {

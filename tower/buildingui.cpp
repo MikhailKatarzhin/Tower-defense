@@ -13,6 +13,7 @@ BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
     QLabel * costBT =     new QLabel(QString("Cost: %1").arg(baseTower->getTower()->getBASECOST()));
     QLabel * radiusBT =   new QLabel(QString("Radius: %1").arg(baseTower->getTower()->getBASERADIUS()));
     QLabel * powerBT =    new QLabel(QString("Power: %1").arg(baseTower->getTower()->getBASEPOWER()));
+    QLabel * firingRateBT =    new QLabel(QString("Shoot per sec: %1").arg(baseTower->getTower()->getBASEFIRINGRATE()));
 
     connect(baseTower, SIGNAL(create(ITower*)), this, SLOT(sendBuild(ITower*)));
 
@@ -20,11 +21,13 @@ BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
     list.push_back(costBT);
     list.push_back(radiusBT);
     list.push_back(powerBT);
+    list.push_back(firingRateBT);
 
     UiObject * rapidFireTower =    new UiObject(nullptr, new TowerRapidFire());
     QLabel * costRFT =     new QLabel(QString("Cost: %1").arg(rapidFireTower->getTower()->getBASECOST()));
     QLabel * radiusRFT =   new QLabel(QString("Radius: %1").arg(rapidFireTower->getTower()->getBASERADIUS()));
     QLabel * powerRFT =    new QLabel(QString("Power: %1").arg(rapidFireTower->getTower()->getBASEPOWER()));
+    QLabel * firingRateRFT =    new QLabel(QString("Shoot per sec: %1").arg(rapidFireTower->getTower()->getBASEFIRINGRATE()));
 
     connect(rapidFireTower, SIGNAL(create(ITower*)), this, SLOT(sendBuild(ITower*)));
 
@@ -32,6 +35,7 @@ BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
     list.push_back(costRFT);
     list.push_back(radiusRFT);
     list.push_back(powerRFT);
+    list.push_back(firingRateRFT);
 
     for(auto wgt : list)
     {

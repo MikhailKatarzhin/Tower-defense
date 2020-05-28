@@ -8,6 +8,7 @@ TowerUI::TowerUI(QWidget *parent) : QWidget(parent)
     power = new QLabel("Power: ", this);
     radius = new QLabel("Radius: ", this);
     level = new QLabel("Level: ", this);
+    firingRate = new QLabel("Shoot per sec: ", this);
     sell = new QPushButton("Sell", this);
     sell->setEnabled(false);
     upgrade = new QPushButton(this);
@@ -20,6 +21,7 @@ TowerUI::TowerUI(QWidget *parent) : QWidget(parent)
     v_box->addWidget(level);
     v_box->addWidget(power);
     v_box->addWidget(radius);
+    v_box->addWidget(firingRate);
     v_box->addLayout(h_box);
     v_box->setAlignment(Qt::AlignBottom);
     setLayout(v_box);
@@ -38,6 +40,7 @@ void TowerUI::setUi(ITower * tower)
         level->setText(QString("Level: %1 (%2)").arg(levelTower).arg(levelTower+1));
         power->setText(QString("Power: %1 (+%2)").arg(tower->getPower()).arg((int)(tower->getPower() * (tower->getMULTIPLIERPOWER() - 1))));
         radius->setText(QString("Radius: %1 (+%2)").arg(tower->getRadius()).arg((int)(tower->getRadius() * (tower->getMULTIPLIERRADIUS() - 1))));
+        firingRate->setText(QString("Shoot per sec: %1 (+%2)").arg(tower->getFiringRate()).arg(tower->getFiringRate() * (tower->getMULTIPLIERFIRINGRATE() - 1)));
         sell->setText(QString("Sell %1").arg(tower->getSalePrice()));
 
         upgrade->setText(QString("Upgrade %1").arg(costUp));

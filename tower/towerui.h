@@ -22,6 +22,7 @@ private:
     QLabel * power;
     QLabel * radius;
     QLabel * level;
+    QLabel * firingRate;
     int levelTower;
     int costUp;
     int money;

@@ -12,14 +12,14 @@ class Tower : public ITower
 
 public:
 
-    const float MULTIPLIERRADIUS    = 1.25;
+    const float MULTIPLIERRADIUS    = 1.15;
     const float MULTIPLIERPOWER     = 1.9;
     const float MULTIPLIERCOST      = 2.1;
     const float MULTIPLIERFIRINGRATE= 1.05;
     const float BASEFIRINGRATE      = 0.9;
     const int   BASECOST            = 50;
     const int   BASERADIUS          = 200;
-    const int   BASEPOWER           = 30;
+    const int   BASEPOWER           = 35;
 
     float   getMULTIPLIERRADIUS();
     float   getMULTIPLIERPOWER();

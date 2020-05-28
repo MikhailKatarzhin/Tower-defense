@@ -1,6 +1,6 @@
 #pragma once
 #include <QWidget>
-#include "uiobject.h"
+#include "tower/uiobject.h"
 #include "tower/ITower.h"
 
 /**

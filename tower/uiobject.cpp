@@ -1,4 +1,4 @@
-#include "uiobject.h"
+#include "tower/uiobject.h"
 
 UiObject::UiObject(QWidget * parent, ITower * tower)
 {

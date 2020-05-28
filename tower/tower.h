@@ -2,7 +2,7 @@
 
 #include <QtWidgets>
 #include <QPainter>
-#include "towerarea.h"
+#include "tower/towerarea.h"
 #include "bullet.h"
 #include "tower/ITower.h"
 
@@ -15,6 +15,8 @@ public:
     const float MULTIPLIERRADIUS    = 1.25;
     const float MULTIPLIERPOWER     = 1.9;
     const float MULTIPLIERCOST      = 2.1;
+    const float MULTIPLIERFIRINGRATE= 1.05;
+    const float BASEFIRINGRATE      = 0.9;
     const int   BASECOST            = 50;
     const int   BASERADIUS          = 200;
     const int   BASEPOWER           = 30;
@@ -22,6 +24,9 @@ public:
     float   getMULTIPLIERRADIUS();
     float   getMULTIPLIERPOWER();
     float   getMULTIPLIERCOST();
+    float   getMULTIPLIERFIRINGRATE();
+
+    float   getBASEFIRINGRATE();
     int     getBASECOST();
     int     getBASEPOWER();
     int     getBASERADIUS();
@@ -38,6 +43,7 @@ public:
     int getRadius();
     int getCost();
     int getSalePrice();
+    float getFiringRate();
 
     ~Tower();
 
@@ -72,5 +78,6 @@ private:
     int cost    = BASECOST;
     int level   = 0;
     int salePrice = 0;
+    float firingRate = BASEFIRINGRATE;
 };
 

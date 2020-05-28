@@ -1,4 +1,4 @@
-#include "towerarea.h"
+#include "tower/towerarea.h"
 
 TowerArea::TowerArea( QGraphicsObject *parent)
 {

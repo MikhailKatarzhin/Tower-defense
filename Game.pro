@@ -29,24 +29,24 @@ SOURCES += \
     enemy/BaseEnemyFactory.cpp \
     enemy/EasyEnemyFactory.cpp \
     enemy/HardEnemyFactory.cpp \
+    enemy/enemy.cpp \
     enemy/enemyArmored.cpp \
     enemy/enemyRunner.cpp \
     level/TextFileLevelParser.cpp \
     level/XmlLevelParser.cpp \
-        main.cpp \
+    tower/buildingui.cpp \
+    tower/tower.cpp \
+    tower/towerarea.cpp \
+    tower/towerui.cpp \
+    tower/uiobject.cpp \
+    main.cpp \
     map.cpp \
     road.cpp \
     game.cpp \
-    tower.cpp \
-    enemy/enemy.cpp \
     menu.cpp \
     level.cpp \
     bullet.cpp \
-    uiobject.cpp \
     towerplace.cpp \
-    buildingui.cpp \
-    towerarea.cpp \
-    towerui.cpp \
     hud.cpp
 
 HEADERS += \
@@ -60,20 +60,20 @@ HEADERS += \
     level/ILevelParser.h \
     level/TextFileLevelParser.h \
     level/XmlLevelParser.h \
+    tower/buildingui.h \
+    tower/ITower.h \
+    tower/tower.h \
+    tower/towerarea.h \
+    tower/towerui.h \
+    tower/uiobject.h \
     map.h \
     road.h \
     game.h \
-    tower.h \
     enemy/enemy.h \
     menu.h \
     level.h \
     bullet.h \
-    tower/ITower.h \
-    uiobject.h \
     towerplace.h \
-    buildingui.h \
-    towerarea.h \
-    towerui.h \
     hud.h
 
 # Default rules for deployment.

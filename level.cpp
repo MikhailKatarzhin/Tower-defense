@@ -1,5 +1,5 @@
 #include "level.h"
-#include "tower.h"
+#include "tower/tower.h"
 
 Level::Level(Map & _map, QWidget *parent)
 {

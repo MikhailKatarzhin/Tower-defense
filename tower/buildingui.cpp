@@ -1,5 +1,5 @@
-#include "buildingui.h"
-#include "tower.h"
+#include "tower/buildingui.h"
+#include "tower/tower.h"
 BuildingUI::BuildingUI(QWidget *parent) : QWidget(parent)
 {
     v_box.setAlignment(Qt::AlignTop);

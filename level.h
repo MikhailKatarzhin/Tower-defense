@@ -3,6 +3,7 @@
 #include "map.h"
 #include "tower/ITower.h"
 #include "towerplace.h"
+#include "roadFinder/RoadFinder.h"
 
 class Level : public QGraphicsScene
 {
@@ -17,6 +18,7 @@ signals:
 public slots:
     void createTower(ITower * tower);
 private:
+    RoadFinder* roadFinder;
     Map map;
     QGraphicsPixmapItem* build_curs;
     bool building;

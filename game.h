@@ -8,6 +8,7 @@
 #include "hud.h"
 #include "enemy/IEnemyFactory.h"
 #include "level/ILevelParser.h"
+#include "roadFinder/RoadFinder.h"
 
 class Game : public QWidget
 {
@@ -43,6 +44,7 @@ private slots:
     void killEnemy(int = 0);
 
 private:
+    RoadFinder * roadFinder;
     IEnemyFactory *enemyFactory;
     ITower * selectedTower;
     QMediaPlayer *music;

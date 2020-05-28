@@ -34,6 +34,7 @@ SOURCES += \
     enemy/enemyRunner.cpp \
     level/TextFileLevelParser.cpp \
     level/XmlLevelParser.cpp \
+    roadFinder/RoadFinder.cpp \
     tower/buildingui.cpp \
     tower/tower.cpp \
     tower/towerAntiArmor.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     level/ILevelParser.h \
     level/TextFileLevelParser.h \
     level/XmlLevelParser.h \
+    roadFinder/RoadFinder.h \
     tower/buildingui.h \
     tower/ITower.h \
     tower/tower.h \

@@ -18,6 +18,12 @@ void Level::createPlace(QPointF point)
 
 void Level::renderMap()
 {
+    if (nullptr == roadFinder)
+        roadFinder = new RoadFinder(
+                    this,
+                    this->map.getTileH(),
+                    this->map.getTileW()
+        );
     QVector<QVector<int>> sc_lvl = map.getlvlID();
 
     lvl_h = map.mapH()*map.getTileH();
@@ -66,10 +72,11 @@ void Level::renderMap()
                 addItem(sc_obj);
                 break;
             }
-
             }
         }
     }
+    qDebug() << "Call rF->test() after create map.";
+    roadFinder->test();
 }
 
 void Level::createTower(ITower * tower)
@@ -102,7 +109,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if(event->button() == Qt::LeftButton)
     {
-        if (building == true && place!= nullptr)
+        if (building == true && place != nullptr)
         {
             ITower * tower = this->tower;
             this->tower = nullptr;
@@ -118,6 +125,8 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
             tower->setSelected(true);
             emit setUI(tower);
             emit successBuild(tower->getCost());
+            qDebug() << "Call rf->test() after build.";
+            roadFinder->test();
             return;
         }
 

@@ -1,5 +1,6 @@
 #include "game.h"
 #include "enemy/IEnemy.h"
+#include "roadFinder/RoadFinder.h"
 
 Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelParser)
 {
@@ -40,6 +41,8 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
 
     road =  levelParser->getRoad();
     level = new Level( levelParser->getMap(), this);
+//    roadFinder = new RoadFinder(level);
+//    roadFinder->test();
 
     selectedTower = nullptr;
     wave = 0;

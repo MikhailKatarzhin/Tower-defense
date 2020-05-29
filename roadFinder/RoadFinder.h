@@ -1,5 +1,4 @@
-#ifndef ROADFINDER_H
-#define ROADFINDER_H
+#pragma once
 #include <QGraphicsScene>
 
 class RoadFinder {
@@ -15,5 +14,3 @@ private:
     int cellHeight;
     QGraphicsScene* level;
 };
-
-#endif // ROADFINDER_H

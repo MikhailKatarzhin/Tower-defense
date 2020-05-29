@@ -3,6 +3,9 @@
 #include "map.h"
 #include "tower/ITower.h"
 #include "towerplace.h"
+#include "places/castlePlace.h"
+#include "places/denPlace.h"
+#include "places/roadPlace.h"
 #include "roadFinder/RoadFinder.h"
 
 class Level : public QGraphicsScene

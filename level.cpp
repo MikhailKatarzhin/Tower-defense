@@ -39,23 +39,23 @@ void Level::renderMap()
             {
             case 1 :
             {
-                TowerPlace * place = new TowerPlace();
-                place->setPos(j*map.getTileW(), i*map.getTileH());
-                addItem(place);
+                TowerPlace * tplace = new TowerPlace();
+                tplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(tplace);
                 break;
             }
             case 2:
             {
-                QGraphicsPixmapItem * sc_obj = new QGraphicsPixmapItem (QPixmap(":/res/images/Road.png"));
-                sc_obj->setPos(j*map.getTileW(), i*map.getTileH());
-                addItem(sc_obj);
+                RoadPlace * rplace = new RoadPlace();
+                rplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(rplace);
                 break;
             }
             case 3:
             {
-                QGraphicsPixmapItem * sc_obj = new QGraphicsPixmapItem (QPixmap(":/res/images/Spawn.png"));
-                sc_obj->setPos(j*map.getTileW(), i*map.getTileH());
-                addItem(sc_obj);
+                DenPlace * dplace = new DenPlace();
+                dplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(dplace);
                 break;
             }
             case 4:
@@ -67,9 +67,9 @@ void Level::renderMap()
             }
             case 5:
             {
-                QGraphicsPixmapItem * sc_obj = new QGraphicsPixmapItem (QPixmap(":/res/images/Red.png"));
-                sc_obj->setPos(j*map.getTileW(), i*map.getTileH());
-                addItem(sc_obj);
+                CastlePlace * cplace = new CastlePlace();
+                cplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(cplace);
                 break;
             }
             }

@@ -48,7 +48,8 @@ void RoadFinder::calculationPlacesWithTowers()
         if (towerPlace != nullptr)
             towerPlaceCounter++;
         ITower* iTower = dynamic_cast<ITower*>(item);
-        if (iTower != nullptr) {
+        if (iTower != nullptr)
+        {
             QPointF position = iTower->pos();
             qDebug() << "\n" << "iTower[x] = " << position.x() / cellHeight
                      << "\n" << "iTower[y] = " << position.y() / cellWidth;
@@ -59,7 +60,8 @@ void RoadFinder::calculationPlacesWithTowers()
             for (int i = 0, n = colliding_items.size(); i < n; ++i)
             {
                 RoadPlace *roadPlace = dynamic_cast<RoadPlace *>(colliding_items[i]);
-                roadPlace->increaseDamageWeight(iTower->getPower() * iTower->getFiringRate());
+                if(roadPlace != nullptr)
+                    roadPlace->increaseDamageWeight(iTower->getPower() * iTower->getFiringRate());
             }
 
         }
@@ -78,50 +80,79 @@ void RoadFinder::calculationWaysFromCastle()
     QTransform * qtransform = new QTransform();
     QMap<float, QList<RoadPlace *>*> calculationPoints;
     RoadPlace *roadPlace;
-    roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x(), castle.y()  /* + cellHeight*/   , *qtransform));
+    QGraphicsItem * upperItem = level->itemAt(castle.x(), castle.y(), *qtransform);
+    QList<QGraphicsItem *> listItems = upperItem->collidingItems();
+    for(QGraphicsItem * item : listItems)
+    {
+        roadPlace =  dynamic_cast<RoadPlace *>(item);
+        if(roadPlace != nullptr)
+            break;
+    }
     if( roadPlace != nullptr)
     {
         if(!calculationPoints.contains(roadPlace->getWeight()))
             calculationPoints.insert(roadPlace->getWeight(), new QList<RoadPlace *>());
         calculationPoints[roadPlace->getWeight()]->push_back(roadPlace);
     }
-/*
-    добавим изначально только клуетку под замком
-
-    roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x(), castle.y() - cellHeight, *qtransform));
-    if( roadPlace != nullptr)
-    {
-        if(!calculationPoints.contains(roadPlace->getWeight()))
-            calculationPoints.insert(roadPlace->getWeight(), new QList<RoadPlace *>());
-        calculationPoints[roadPlace->getWeight()]->push_back(roadPlace);
-    }
-    roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x() + cellWidth, castle.y(), *qtransform));
-    if( roadPlace != nullptr)
-    {
-        if(!calculationPoints.contains(roadPlace->getWeight()))
-            calculationPoints.insert(roadPlace->getWeight(), new QList<RoadPlace *>());
-        calculationPoints[roadPlace->getWeight()]->push_back(roadPlace);
-    }
-    roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x() - cellWidth, castle.y(), *qtransform));
-    if( roadPlace != nullptr)
-    {
-        if(!calculationPoints.contains(roadPlace->getWeight()))
-            calculationPoints.insert(roadPlace->getWeight(), new QList<RoadPlace *>());
-        calculationPoints[roadPlace->getWeight()]->push_back(roadPlace);
-    }
-*/
     while( !calculationPoints.isEmpty() )
     {
         RoadPlace *currentRoadPlace = calculationPoints.first()->first();
 
-        roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x(), castle.y() + cellHeight, *qtransform));
-        compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
-        roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x(), castle.y() - cellHeight, *qtransform));
-        compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
-        roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x() + cellWidth, castle.y(), *qtransform));
-        compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
-        roadPlace = dynamic_cast<RoadPlace *>(level->itemAt(castle.x() - cellWidth, castle.y(), *qtransform));
-        compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
+        upperItem = level->itemAt(currentRoadPlace->pos().x(), currentRoadPlace->pos().y() + cellHeight, *qtransform);
+        if(upperItem != nullptr)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                roadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(roadPlace != nullptr)
+                    break;
+            }
+            if( roadPlace != nullptr)
+            compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
+        }
+
+        upperItem = (level->itemAt(currentRoadPlace->pos().x(), currentRoadPlace->pos().y() - cellHeight, *qtransform));
+        if(upperItem != nullptr)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                roadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(roadPlace != nullptr)
+                    break;
+            }
+            if( roadPlace != nullptr)
+            compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
+        }
+
+        upperItem = (level->itemAt(currentRoadPlace->pos().x() + cellWidth, currentRoadPlace->pos().y(), *qtransform));
+        if(upperItem != nullptr)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                roadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(roadPlace != nullptr)
+                    break;
+            }
+            if( roadPlace != nullptr)
+            compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
+        }
+
+        upperItem = (level->itemAt(currentRoadPlace->pos().x() - cellWidth, currentRoadPlace->pos().y(), *qtransform));
+        if(upperItem != nullptr)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                roadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(roadPlace != nullptr)
+                    break;
+            }
+            if( roadPlace != nullptr)
+            compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
+        }
 
         calculationPoints.first()->removeFirst();
         if(calculationPoints.first()->isEmpty())

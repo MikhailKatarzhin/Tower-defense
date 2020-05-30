@@ -1,8 +1,10 @@
 #include "enemy/enemyArmored.h"
+#include "places/castlePlace.h"
+#include <QtDebug>
 
-
-EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
+EnemyArmored::EnemyArmored(Road _way, int wave, QGraphicsScene * level) : way(_way)
 {
+    this->level = level;
     passedWay   = 0;
     sprite      = new QPixmap(":/res/images/EnemyArmored.png");
     max_hp      = 175 * pow(1.25, wave);
@@ -19,51 +21,85 @@ EnemyArmored::EnemyArmored(Road _way, int wave) : way(_way)
 
 void EnemyArmored::move()
 {
-    // тут наверное стоит пересчитывать путь и идти
-    // хотя не это затратно
-    // а может и нет
-    //
-    if(this->scenePos() != way.getPoints().last())
+    dy = 0;
+    dx = 0;
+    qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
+    QTransform * qtransform = new QTransform();
+    QGraphicsItem * upperItem = level->itemAt(this->pos().x(), this->pos().y(), *qtransform);
+    QList<QGraphicsItem *> listItems = upperItem->collidingItems();
+    RoadPlace *currentRoadPlace/* = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform))*/;
+    for(QGraphicsItem * item : listItems)
     {
-        passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
+        currentRoadPlace =  dynamic_cast<RoadPlace *>(item);
+        if(currentRoadPlace != nullptr)
+            break;
+    }
 
-        if(this->scenePos() == way.getPoints()[point]) ++point;
-        else
+    if( currentRoadPlace != nullptr )
+    {
+
+        RoadPlace *upRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() + currentRoadPlace->y(), *qtransform));
+        RoadPlace *downRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() - currentRoadPlace->y(), *qtransform));
+        RoadPlace *rightRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() + currentRoadPlace->x(), this->pos().y(), *qtransform));
+        RoadPlace *leftRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() + currentRoadPlace->x(), this->pos().y(), *qtransform));
+
+        if(upRoadPlace != nullptr && upRoadPlace->getWeight() < currentRoadPlace->getWeight())
         {
-            if(this->scenePos().x() < ((way.getPoints()[point]).x()))
+            if(downRoadPlace != nullptr)
             {
-                dx = 1;
-            }
-            else if (this->scenePos().x() > (way.getPoints()[point].x()))
-            {
-                dx = -1;
-            }
-            else
-            {
-                dx = 0;
-            }
-            if(this->scenePos().y() < (way.getPoints()[point].y()))
-            {
+                if(upRoadPlace->getWeight() <= downRoadPlace->getWeight())
+                    dy = 1;
+            }else
                 dy = 1;
-            }
-            else if (this->scenePos().y() > (way.getPoints()[point].y()))
-            {
-                dy = -1;
-            }
-            else
-            {
-                dy = 0;
-            }
+        }
 
-            moveBy(dx,dy);
+        if(downRoadPlace != nullptr && downRoadPlace->getWeight() < currentRoadPlace->getWeight())
+        {
+            if(upRoadPlace != nullptr)
+            {
+                if(downRoadPlace->getWeight() < upRoadPlace->getWeight())
+                    dy = -1;
+            }else
+                dy = -1;
+        }
+
+        if(rightRoadPlace != nullptr && rightRoadPlace->getWeight() < currentRoadPlace->getWeight())
+        {
+            if(leftRoadPlace != nullptr)
+            {
+                if(rightRoadPlace->getWeight() <= leftRoadPlace->getWeight())
+                    dy = 1;
+            }else
+                dy = 1;
+        }
+
+        if(leftRoadPlace != nullptr && leftRoadPlace->getWeight() < currentRoadPlace->getWeight())
+        {
+            if(rightRoadPlace != nullptr)
+            {
+                if(leftRoadPlace->getWeight() < rightRoadPlace->getWeight())
+                    dy = -1;
+            }else
+                dy = -1;
         }
     }
-    else
+
+    moveBy(dx,dy);
+
+    upperItem = level->itemAt(this->pos().x(), this->pos().y(), *qtransform);
+    listItems = upperItem->collidingItems();
+    CastlePlace *castlePlace/* = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform))*/;
+    for(QGraphicsItem * item : listItems)
     {
-        lifes->stop();
-        lifes->disconnect();
-        emit win();
-        delete this;
+        castlePlace =  dynamic_cast<CastlePlace *>(item);
+        if(castlePlace != nullptr)
+        {
+            lifes->stop();
+            lifes->disconnect();
+            emit win();
+            delete this;
+            break;
+        }
     }
 }
 

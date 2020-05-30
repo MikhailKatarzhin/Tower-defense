@@ -6,7 +6,7 @@ HardEnemyFactory::HardEnemyFactory()
 
 }
 
-IEnemy* HardEnemyFactory::createEnemy(Road _way, int wave)
+IEnemy* HardEnemyFactory::createEnemy(Road _way, int wave, QGraphicsScene * level)
 {
     srand(time(0));
     switch (rand() % 10)
@@ -15,8 +15,8 @@ IEnemy* HardEnemyFactory::createEnemy(Road _way, int wave)
     case 3:
     case 2:
     case 4:
-        return new EnemyRunner(_way, wave);
+        return new EnemyRunner(_way, wave, level);
     default:
-        return new EnemyArmored(_way, wave);
+        return new EnemyArmored(_way, wave, level);
     }
 }

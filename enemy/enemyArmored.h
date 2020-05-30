@@ -5,13 +5,15 @@
 #include <math.h>
 #include "road.h"
 #include "enemy/IEnemy.h"
+#include "places/roadPlace.h"
+#include <QGraphicsScene>
 
 class EnemyArmored: public IEnemy
 {
     Q_OBJECT
 
 public:
-    EnemyArmored(Road, int wave);
+    EnemyArmored(Road, int wave, QGraphicsScene * level);
     ~EnemyArmored();
     int getPoint();
     int getpassedWay();
@@ -45,5 +47,6 @@ private:
     int armor;
     double dy;
     double dx;
+    QGraphicsScene* level;
 };
 

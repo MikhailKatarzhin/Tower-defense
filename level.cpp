@@ -53,6 +53,10 @@ void Level::renderMap()
             }
             case 3:
             {
+                RoadPlace * rplace = new RoadPlace();
+                rplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(rplace);
+
                 DenPlace * dplace = new DenPlace();
                 dplace->setPos(j*map.getTileW(), i*map.getTileH());
                 addItem(dplace);
@@ -67,6 +71,10 @@ void Level::renderMap()
             }
             case 5:
             {
+                RoadPlace * rplace = new RoadPlace();
+                rplace->setPos(j*map.getTileW(), i*map.getTileH());
+                addItem(rplace);
+
                 CastlePlace * cplace = new CastlePlace();
                 cplace->setPos(j*map.getTileW(), i*map.getTileH());
                 addItem(cplace);
@@ -76,7 +84,7 @@ void Level::renderMap()
         }
     }
     qDebug() << "Call rF->test() after create map.";
-    roadFinder->test();
+//    roadFinder->test();
 }
 
 void Level::createTower(ITower * tower)
@@ -126,7 +134,7 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
             emit setUI(tower);
             emit successBuild(tower->getCost());
             qDebug() << "Call rf->test() after build.";
-            roadFinder->test();
+//            roadFinder->test();
             return;
         }
 

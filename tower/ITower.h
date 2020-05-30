@@ -1,6 +1,7 @@
 #pragma once
 #include <QtWidgets>
 #include <QGraphicsObject>
+#include "tower/towerarea.h"
 
 class ITower : public QGraphicsObject
 {

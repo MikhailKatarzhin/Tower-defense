@@ -201,6 +201,10 @@ float TowerAntiArmor::getFiringRate()
 {
     return firingRate;
 }
+TowerArea* TowerAntiArmor::getTowerArea()
+{
+    return area;
+}
 
 TowerAntiArmor::~TowerAntiArmor()
 {

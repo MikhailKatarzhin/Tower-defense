@@ -201,6 +201,10 @@ float TowerRapidFire::getFiringRate()
 {
     return firingRate;
 }
+TowerArea* TowerRapidFire::getTowerArea()
+{
+    return area;
+}
 
 TowerRapidFire::~TowerRapidFire()
 {

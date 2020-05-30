@@ -16,6 +16,10 @@ void RoadPlace::decreaseWeight(int dWeight)
     else
         weight = 0;
 }
+void RoadPlace::initializationWeight()
+{
+    weight = BASEWEIGHT;
+}
 
 QRectF RoadPlace::boundingRect() const
 {

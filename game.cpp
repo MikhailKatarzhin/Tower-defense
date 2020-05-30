@@ -41,8 +41,12 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
 
     road =  levelParser->getRoad();
     level = new Level( levelParser->getMap(), this);
-//    roadFinder = new RoadFinder(level);
-//    roadFinder->test();
+    RoadFinder *roadFinder = new RoadFinder(
+                level,
+                levelParser->getMap().getTileH(),
+                levelParser->getMap().getTileW()
+    );
+    roadFinder->calculationMap();
 
     selectedTower = nullptr;
     wave = 0;
@@ -175,7 +179,7 @@ void Game::createEnemies()
 
 void Game::spawnEnemy()
 {
-    IEnemy *enemy = enemyFactory->createEnemy(road, wave);
+    IEnemy *enemy = enemyFactory->createEnemy(road, wave, level);
 
     level->addItem(enemy);
     ++currentEnemy;

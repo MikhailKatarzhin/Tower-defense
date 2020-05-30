@@ -9,6 +9,11 @@ void RoadPlace::increaseWeight(int iWeight)
 {
     weight += iWeight;
 }
+void RoadPlace::increaseDamageWeight(int idWeight)
+{
+    damageWeight += idWeight;
+    increaseWeight(idWeight);
+}
 void RoadPlace::decreaseWeight(int dWeight)
 {
     if(weight > dWeight)
@@ -18,7 +23,25 @@ void RoadPlace::decreaseWeight(int dWeight)
 }
 void RoadPlace::initializationWeight()
 {
+    weight = BASEWEIGHT + damageWeight;
+}
+void RoadPlace::initializationDamageWeight()
+{
+    decreaseWeight(damageWeight);
+    damageWeight = 0;
+}
+void RoadPlace::initializationAllWeight()
+{
     weight = BASEWEIGHT;
+    damageWeight = 0;
+}
+float RoadPlace::getWeight()
+{
+    return weight;
+}
+float RoadPlace::getDamageWeight()
+{
+    return damageWeight;
 }
 
 QRectF RoadPlace::boundingRect() const

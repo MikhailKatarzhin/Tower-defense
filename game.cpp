@@ -21,7 +21,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
     music = new QMediaPlayer(this);
     music->setPlaylist(playlist);
-    music->setVolume(5);
+    music->setVolume(1);
     music->play();
     //********************//
 

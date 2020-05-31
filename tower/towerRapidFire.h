@@ -13,7 +13,7 @@ class TowerRapidFire : public ITower
 public:
 
     const float MULTIPLIERRADIUS    = 1.1;
-    const float MULTIPLIERPOWER     = 1.5;
+    const float MULTIPLIERPOWER     = 1.45;
     const float MULTIPLIERCOST      = 2.15;
     const float MULTIPLIERFIRINGRATE= 1.3;
     const float BASEFIRINGRATE      = 5;

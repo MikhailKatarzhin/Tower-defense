@@ -1,4 +1,4 @@
-#include "towerplace.h"
+#include "places/towerplace.h"
 
 TowerPlace::TowerPlace()
 {

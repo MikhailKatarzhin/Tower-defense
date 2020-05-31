@@ -13,8 +13,8 @@ class TowerAntiArmor : public ITower
 public:
 
     const float MULTIPLIERRADIUS    = 1.2;
-    const float MULTIPLIERPOWER     = 2.1;
-    const float MULTIPLIERCOST      = 2.2;
+    const float MULTIPLIERPOWER     = 2.3;
+    const float MULTIPLIERCOST      = 2.25;
     const float MULTIPLIERFIRINGRATE= 1.05;
     const float BASEFIRINGRATE      = 0.2;
     const int   BASECOST            = 200;

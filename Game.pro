@@ -37,6 +37,7 @@ SOURCES += \
     places/castlePlace.cpp \
     places/denPlace.cpp \
     places/roadPlace.cpp \
+    places/towerplace.cpp \
     roadFinder/RoadFinder.cpp \
     tower/buildingui.cpp \
     tower/tower.cpp \
@@ -52,7 +53,6 @@ SOURCES += \
     menu.cpp \
     level.cpp \
     bullet.cpp \
-    towerplace.cpp \
     hud.cpp
 
 HEADERS += \
@@ -69,6 +69,7 @@ HEADERS += \
     places/castlePlace.h \
     places/denPlace.h \
     places/roadPlace.h \
+    places/towerplace.h \
     roadFinder/RoadFinder.h \
     tower/buildingui.h \
     tower/ITower.h \
@@ -85,7 +86,6 @@ HEADERS += \
     menu.h \
     level.h \
     bullet.h \
-    towerplace.h \
     hud.h
 
 # Default rules for deployment.

@@ -135,17 +135,13 @@ bool TextFileLevelParser::parseRoadLine(QString roadLine)
             return false;
         }
         x *= this->getMap().getTileW();
-        // for the walking between cells, subtract half of the cell
-        //x -= this->getMap().getTileW();
         int y = xYPair[1].toInt(&ok);
         if (!ok) {
             qDebug() << " 'y' (" << xCommaYPoint << ") not a number .";
             return false;
         }
         y *= this->getMap().getTileH();
-        // for the walking between cells, subtract half of the cell
-        //y -= this->getMap().getTileH();
-        qDebug() << x << y;
+//        qDebug() << x << y;
         roadPoints << QPoint(x, y);
     }
     this->road = new Road(roadPoints.at(0), roadPoints);

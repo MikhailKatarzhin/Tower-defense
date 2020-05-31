@@ -2,7 +2,7 @@
 #include <QGraphicsView>
 #include "map.h"
 #include "tower/ITower.h"
-#include "towerplace.h"
+#include "places/towerplace.h"
 #include "places/castlePlace.h"
 #include "places/denPlace.h"
 #include "places/roadPlace.h"

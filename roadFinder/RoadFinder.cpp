@@ -5,7 +5,7 @@
 #include "RoadFinder.h"
 #include "places/castlePlace.h"
 #include "places/roadPlace.h"
-#include "towerplace.h"
+#include "places/towerplace.h"
 #include "tower/ITower.h"
 #include <QTime>
 
@@ -44,20 +44,11 @@ void RoadFinder::calculationPlacesWithTowers()
         }
     }
     listOfItems = level->items();
-    int towerPlaceCounter = 0;
-    int towerCounter = 0;
     for (QGraphicsItem* item : listOfItems)
     {
-        TowerPlace* towerPlace = dynamic_cast<TowerPlace*>(item);
-        if (towerPlace != nullptr)
-            towerPlaceCounter++;
         ITower* iTower = dynamic_cast<ITower*>(item);
         if (iTower != nullptr)
         {
-            QPointF position = iTower->pos();
-            qDebug() << "\n" << "iTower[x] = " << position.x() / cellHeight
-                     << "\n" << "iTower[y] = " << position.y() / cellWidth;
-            towerCounter++;
             if(iTower->getTowerArea() == nullptr)
                 break;
             QList<QGraphicsItem *> colliding_items = iTower->getTowerArea()->collidingItems(Qt::IntersectsItemShape);
@@ -67,7 +58,7 @@ void RoadFinder::calculationPlacesWithTowers()
                 if(roadPlace != nullptr)
                 {
                     roadPlace->increaseDamageWeight(iTower->getPower() * iTower->getFiringRate());
-                    qDebug()<< "newweight: "<< roadPlace->getWeight();
+                    //qDebug()<< "newweight: "<< roadPlace->getWeight();
                 }
             }
 
@@ -78,8 +69,6 @@ void RoadFinder::calculationPlacesWithTowers()
             castle = castlePlace->pos();
         }
     }
-    qDebug() << "towerPlaceCounter == " << towerPlaceCounter
-             << "\ntowerCounter == " << towerCounter;
 }
 
 void RoadFinder::calculationWaysFromCastle()

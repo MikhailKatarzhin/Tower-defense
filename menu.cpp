@@ -32,7 +32,7 @@ void Menu::chooseLvl(IEnemyFactory *enemyFactory)
     Game * game  = new Game(nullptr, enemyFactory, new TextFileLevelParser(":/res/maps/map"));
     this->close();
     game->show();
-    qDebug()<< game->size();
+    //qDebug()<< game->size();
 }
 void Menu::chooseEasy()
 {

@@ -62,8 +62,8 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     wave = 0;
     enemies = 0;
     currentEnemy = 0;
-    lifes = 15;
-    money = 250;
+    lifes = listDens->size() * 7.5;
+    money = listDens->size() * 125;
     //********************//
 
 

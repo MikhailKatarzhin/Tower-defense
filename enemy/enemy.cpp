@@ -22,27 +22,78 @@ Enemy::Enemy(Road _way, int wave, QGraphicsScene * level) : way(_way)
 
 void Enemy::move()
 {
-    dy = 0;
-    dx = 0;
-    qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
+    //qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
     QTransform * qtransform = new QTransform();
     QGraphicsItem * upperItem = level->itemAt(this->pos().x(), this->pos().y(), *qtransform);
     QList<QGraphicsItem *> listItems = upperItem->collidingItems();
-    RoadPlace *currentRoadPlace/* = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform))*/;
-    for(QGraphicsItem * item : listItems)
+    RoadPlace *currentRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform));
+    if(currentRoadPlace == nullptr)
     {
-        currentRoadPlace =  dynamic_cast<RoadPlace *>(item);
-        if(currentRoadPlace != nullptr)
-            break;
+        listItems = upperItem->collidingItems();
+        for(QGraphicsItem * item : listItems)
+        {
+            currentRoadPlace =  dynamic_cast<RoadPlace *>(item);
+            if(currentRoadPlace != nullptr)
+                break;
+        }
     }
-
     if( currentRoadPlace != nullptr )
     {
+        dy = 0;
+        dx = 0;
 
-        RoadPlace *upRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() + currentRoadPlace->y(), *qtransform));
-        RoadPlace *downRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() - currentRoadPlace->y(), *qtransform));
-        RoadPlace *rightRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() + currentRoadPlace->x(), this->pos().y(), *qtransform));
-        RoadPlace *leftRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() + currentRoadPlace->x(), this->pos().y(), *qtransform));
+        qDebug()<<"x:\t"<< currentRoadPlace->x() << "\ty:\t" << currentRoadPlace->y();
+
+        RoadPlace *upRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() + currentRoadPlace->getSprite()->height(), *qtransform));
+        if(nullptr == upRoadPlace)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                upRoadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(upRoadPlace != nullptr)
+                    break;
+            }
+        }
+
+
+        RoadPlace *downRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y() - currentRoadPlace->getSprite()->height(), *qtransform));
+        if(nullptr == upRoadPlace)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                downRoadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(downRoadPlace != nullptr)
+                    break;
+            }
+        }
+
+
+        RoadPlace *rightRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() + currentRoadPlace->getSprite()->width(), this->pos().y(), *qtransform));
+        if(nullptr == upRoadPlace)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                rightRoadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(rightRoadPlace != nullptr)
+                    break;
+            }
+        }
+
+
+        RoadPlace *leftRoadPlace = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x() - currentRoadPlace->getSprite()->width(), this->pos().y(), *qtransform));
+        if(nullptr == upRoadPlace)
+        {
+            listItems = upperItem->collidingItems();
+            for(QGraphicsItem * item : listItems)
+            {
+                leftRoadPlace =  dynamic_cast<RoadPlace *>(item);
+                if(leftRoadPlace != nullptr)
+                    break;
+            }
+        }
 
         if(upRoadPlace != nullptr && upRoadPlace->getWeight() < currentRoadPlace->getWeight())
         {
@@ -69,9 +120,9 @@ void Enemy::move()
             if(leftRoadPlace != nullptr)
             {
                 if(rightRoadPlace->getWeight() <= leftRoadPlace->getWeight())
-                    dy = 1;
+                    dx = 1;
             }else
-                dy = 1;
+                dx = 1;
         }
 
         if(leftRoadPlace != nullptr && leftRoadPlace->getWeight() < currentRoadPlace->getWeight())
@@ -79,29 +130,32 @@ void Enemy::move()
             if(rightRoadPlace != nullptr)
             {
                 if(leftRoadPlace->getWeight() < rightRoadPlace->getWeight())
-                    dy = -1;
+                    dx = -1;
             }else
-                dy = -1;
+                dx = -1;
         }
+        moveBy(dx,dy);
     }
 
-    moveBy(dx,dy);
 
     upperItem = level->itemAt(this->pos().x(), this->pos().y(), *qtransform);
     listItems = upperItem->collidingItems();
-    CastlePlace *castlePlace/* = dynamic_cast<RoadPlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform))*/;
-    for(QGraphicsItem * item : listItems)
-    {
-        castlePlace =  dynamic_cast<CastlePlace *>(item);
-        if(castlePlace != nullptr)
+    CastlePlace *castlePlace = dynamic_cast<CastlePlace *>(level->itemAt(this->pos().x(), this->pos().y(), *qtransform));
+    if(castlePlace == nullptr)
+        for(QGraphicsItem * item : listItems)
         {
-            lifes->stop();
-            lifes->disconnect();
-            emit win();
-            delete this;
-            break;
+            castlePlace =  dynamic_cast<CastlePlace *>(item);
+            if(castlePlace != nullptr)
+                break;
         }
+    if(castlePlace != nullptr)
+    {
+        lifes->stop();
+        lifes->disconnect();
+        emit win();
+        delete this;
     }
+
 }
 
 void Enemy::stop()

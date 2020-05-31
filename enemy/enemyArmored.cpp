@@ -82,9 +82,9 @@ void EnemyArmored::move()
             }else
                 dy = -1;
         }
+        moveBy(dx,dy);
     }
 
-    moveBy(dx,dy);
 
     upperItem = level->itemAt(this->pos().x(), this->pos().y(), *qtransform);
     listItems = upperItem->collidingItems();

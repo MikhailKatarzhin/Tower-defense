@@ -50,7 +50,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
 
     selectedTower = nullptr;
     wave = 0;
-    enemies = 10 + wave * 2;
+    enemies = 0;
     currentEnemy = 0;
     lifes = 15;
     money = 250;
@@ -122,8 +122,8 @@ void Game::wastelifes()
 {
     --lifes;
     --enemies;
-    if (lifes <= 0  ) gameOver();
     emit change_enemy(enemies);
+    if (lifes <= 0  ) gameOver();
 }
 
 void Game::reduceMoney(int cash)
@@ -175,6 +175,7 @@ void Game::createEnemies()
         spawnTimer->start(1000 - 9 * wave);
     else
         spawnTimer->start(100);
+
 }
 
 void Game::spawnEnemy()
@@ -183,12 +184,13 @@ void Game::spawnEnemy()
 
     level->addItem(enemy);
     ++currentEnemy;
-
+    ++enemies;
+    emit change_enemy(enemies);
     connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
     connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
     connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
 
-    if (currentEnemy == 10 + wave * 2)
+    if (currentEnemy == /*10 + wave * 2*/ 1)
     {
         spawnTimer->disconnect();
         currentEnemy = 0;

@@ -18,6 +18,7 @@ public:
     void initializationAllWeight();
     float getWeight();
     float getDamageWeight();
+    QPixmap* getSprite();
 protected:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

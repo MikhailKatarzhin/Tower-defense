@@ -55,5 +55,5 @@ void HUD::enemy(int size)
 
 void HUD::wave(int current)
 {
-    l_wave->setText(QString("Wave: %1").arg(current+1));
+    l_wave->setText(QString("Wave: %1").arg(current));
 }

@@ -43,6 +43,10 @@ float RoadPlace::getDamageWeight()
 {
     return damageWeight;
 }
+QPixmap* RoadPlace::getSprite()
+{
+    return sprite;
+}
 
 QRectF RoadPlace::boundingRect() const
 {

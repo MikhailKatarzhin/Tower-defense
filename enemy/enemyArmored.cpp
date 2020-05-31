@@ -10,7 +10,7 @@ EnemyArmored::EnemyArmored(QPointF *startCoordinats, int wave, QGraphicsScene * 
     max_hp      = 175 * pow(1.25, wave);
     current_hp  = max_hp;
     speed       = 400 * pow(1.005, wave);
-    armor       = 6 * pow(1.1, wave);
+    armor       = 10 * pow(1.2, wave);
     prize       = 8 * pow(1.1, wave);
     this->setPos(startCoordinats->x(),
                  startCoordinats->y());

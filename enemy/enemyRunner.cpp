@@ -10,7 +10,7 @@ EnemyRunner::EnemyRunner(QPointF *startCoordinats, int wave, QGraphicsScene * le
     max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
     speed = 550 * pow(1.05, wave);
-    armor = 0;
+    armor = wave;
     prize = 7 * pow(1.1, wave);
     this->setPos(startCoordinats->x(),
                  startCoordinats->y());

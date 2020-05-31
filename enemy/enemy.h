@@ -7,6 +7,7 @@
 #include "enemy/IEnemy.h"
 #include "places/roadPlace.h"
 #include <QGraphicsScene>
+#include "places/roadPlace.h"
 
 class Enemy: public IEnemy
 {
@@ -45,8 +46,7 @@ private:
     int current_hp;
     int speed;
     int armor;
-    double dy;
-    double dx;
     QGraphicsScene* level;
+    RoadPlace *nextRoadPlace;
 };
 

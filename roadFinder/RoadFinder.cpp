@@ -7,6 +7,8 @@
 #include "places/roadPlace.h"
 #include "towerplace.h"
 #include "tower/ITower.h"
+#include <QTime>
+
 
 RoadFinder::RoadFinder(
         QGraphicsScene* level,
@@ -20,9 +22,10 @@ RoadFinder::RoadFinder(
 
 void RoadFinder::calculationMap()
 {
+    QTime time = QTime().currentTime();
     calculationPlacesWithTowers();
     calculationWaysFromCastle();
-    printAllMap();
+    qDebug()<<"msec for calculation map: "<< time.msecsTo(QTime().currentTime());
 }
 
 void RoadFinder::calculationPlacesWithTowers()

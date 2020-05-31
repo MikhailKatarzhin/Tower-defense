@@ -48,5 +48,6 @@ private:
     double dy;
     double dx;
     QGraphicsScene* level;
+    RoadPlace *nextRoadPlace;
 };
 

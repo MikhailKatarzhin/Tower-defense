@@ -14,6 +14,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
 
     adjustSize();
     setWindowTitle("Tower Defense");
+    move(20,20);
 
     //****Background music****//
     QMediaPlaylist *playlist = new QMediaPlaylist();

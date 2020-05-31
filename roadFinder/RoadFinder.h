@@ -25,4 +25,5 @@ private:
             RoadPlace *currentRoadPlace,
             QMap<float, QList<RoadPlace *>*> *calculationPoints
     );
+    void printAllMap();
 };

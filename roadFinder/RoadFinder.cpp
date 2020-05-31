@@ -22,6 +22,7 @@ void RoadFinder::calculationMap()
 {
     calculationPlacesWithTowers();
     calculationWaysFromCastle();
+    printAllMap();
 }
 
 void RoadFinder::calculationPlacesWithTowers()
@@ -102,7 +103,7 @@ void RoadFinder::calculationWaysFromCastle()
     {
         RoadPlace *currentRoadPlace = calculationPoints.first()->first();
 
-        qDebug()<<"xcp: "<<currentRoadPlace->x()<<"\tycp: "<<currentRoadPlace->y();
+        //qDebug()<<"xcp: "<<currentRoadPlace->x()<<"\tycp: "<<currentRoadPlace->y();
 
         upperItem = level->itemAt(currentRoadPlace->pos().x(), currentRoadPlace->pos().y() + cellHeight, *qtransform);
         if(upperItem != nullptr)
@@ -194,7 +195,7 @@ void RoadFinder::compareAndCalculationWeightWithCurrent(
 {
     if( roadPlace != nullptr)
     {
-            qDebug()<<"xrp: "<<roadPlace->x()<<"\tyrp: "<<roadPlace->y();
+   //         qDebug()<<"xrp: "<<roadPlace->x()<<"\tyrp: "<<roadPlace->y();
 
             if(roadPlace->getWeight() == roadPlace->BASEWEIGHT + roadPlace->getDamageWeight())
             {
@@ -212,4 +213,21 @@ void RoadFinder::compareAndCalculationWeightWithCurrent(
                 (*calculationPoints)[roadPlace->getWeight()]->push_back(roadPlace);
             }
     }
+}
+
+void RoadFinder::printAllMap() {
+    qDebug() << "RoadFinder::printAllMap() START";
+    QList<QGraphicsItem*> listOfAllItems = level->items();
+    for (QGraphicsItem* item: listOfAllItems) {
+        int x = item->pos().x() / cellHeight;
+        int y = item->pos().y() / cellWidth;
+        RoadPlace* itemAsRoadPlace = dynamic_cast<RoadPlace*>(item);
+        if (nullptr == itemAsRoadPlace) {
+            qDebug() << "[" << x << ", " << y << "] is not RoadPlace.";
+            continue;
+        }
+        qDebug() << "[" << x << ", " << y << "] is RoadPlace and weight is "
+                 << itemAsRoadPlace->getWeight();
+    }
+    qDebug() << "RoadFinder::printAllMap() END";
 }

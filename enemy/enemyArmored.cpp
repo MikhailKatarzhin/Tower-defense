@@ -28,14 +28,14 @@ EnemyArmored::EnemyArmored(Road _way, int wave, QGraphicsScene * level) : way(_w
             break;
     }
 
-    lifes = new QTimer();
-    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
-    lifes->start(10000 / speed);
+    steps = new QTimer();
+    connect(steps, SIGNAL(timeout()), this, SLOT(move()));
+    steps->start(10000 / speed);
 }
 
 void EnemyArmored::move()
 {
-    qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
+    //qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
     QPointF tmpPoint;
     QList<QGraphicsItem *> listItems;
 
@@ -56,7 +56,7 @@ void EnemyArmored::move()
 
     if( this->x() == nextRoadPlace->x() && this->y() == nextRoadPlace->y())
     {
-        qDebug()<<"x:\t"<< this->x() << "\ty:\t" << this->y();
+//        qDebug()<<"x:\t"<< this->x() << "\ty:\t" << this->y();
 
         tmpPoint.setX(this->x());
         tmpPoint.setY(this->y() - currentRoadPlace->getSprite()->height());
@@ -136,8 +136,8 @@ void EnemyArmored::move()
         castlePlace =  dynamic_cast<CastlePlace *>(item);
         if(castlePlace != nullptr)
         {
-            lifes->stop();
-            lifes->disconnect();
+            steps->stop();
+            steps->disconnect();
             emit win();
             delete this;
             break;
@@ -147,8 +147,8 @@ void EnemyArmored::move()
 
 void EnemyArmored::stop()
 {
-    lifes->stop();
-    lifes->disconnect();
+    steps->stop();
+    steps->disconnect();
 }
 
 int EnemyArmored::getPoint()
@@ -205,11 +205,11 @@ void EnemyArmored::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 EnemyArmored::~EnemyArmored()
 {
-    if (lifes != nullptr)
+    if (steps != nullptr)
     {
-        lifes->stop();
-        lifes->disconnect();
-        delete lifes;
+        steps->stop();
+        steps->disconnect();
+        delete steps;
     }
     delete sprite;
 }

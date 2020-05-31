@@ -61,7 +61,10 @@ void RoadFinder::calculationPlacesWithTowers()
             {
                 RoadPlace *roadPlace = dynamic_cast<RoadPlace *>(colliding_items[i]);
                 if(roadPlace != nullptr)
+                {
                     roadPlace->increaseDamageWeight(iTower->getPower() * iTower->getFiringRate());
+                    qDebug()<< "newweight: "<< roadPlace->getWeight();
+                }
             }
 
         }
@@ -90,6 +93,7 @@ void RoadFinder::calculationWaysFromCastle()
     }
     if( roadPlace != nullptr)
     {
+        roadPlace->increaseWeight(1);
         if(!calculationPoints.contains(roadPlace->getWeight()))
             calculationPoints.insert(roadPlace->getWeight(), new QList<RoadPlace *>());
         calculationPoints[roadPlace->getWeight()]->push_back(roadPlace);
@@ -98,15 +102,22 @@ void RoadFinder::calculationWaysFromCastle()
     {
         RoadPlace *currentRoadPlace = calculationPoints.first()->first();
 
+        qDebug()<<"xcp: "<<currentRoadPlace->x()<<"\tycp: "<<currentRoadPlace->y();
+
         upperItem = level->itemAt(currentRoadPlace->pos().x(), currentRoadPlace->pos().y() + cellHeight, *qtransform);
         if(upperItem != nullptr)
         {
-            listItems = upperItem->collidingItems();
-            for(QGraphicsItem * item : listItems)
+            roadPlace = nullptr;
+            roadPlace = dynamic_cast<RoadPlace *>(upperItem);
+            if(nullptr == roadPlace)
             {
-                roadPlace =  dynamic_cast<RoadPlace *>(item);
-                if(roadPlace != nullptr)
-                    break;
+                listItems = upperItem->collidingItems();
+                for(QGraphicsItem * item : listItems)
+                {
+                    roadPlace =  dynamic_cast<RoadPlace *>(item);
+                    if(roadPlace != nullptr)
+                        break;
+                }
             }
             if( roadPlace != nullptr)
             compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
@@ -115,12 +126,17 @@ void RoadFinder::calculationWaysFromCastle()
         upperItem = (level->itemAt(currentRoadPlace->pos().x(), currentRoadPlace->pos().y() - cellHeight, *qtransform));
         if(upperItem != nullptr)
         {
-            listItems = upperItem->collidingItems();
-            for(QGraphicsItem * item : listItems)
+            roadPlace = nullptr;
+            roadPlace = dynamic_cast<RoadPlace *>(upperItem);
+            if(nullptr == roadPlace)
             {
-                roadPlace =  dynamic_cast<RoadPlace *>(item);
-                if(roadPlace != nullptr)
-                    break;
+                listItems = upperItem->collidingItems();
+                for(QGraphicsItem * item : listItems)
+                {
+                    roadPlace =  dynamic_cast<RoadPlace *>(item);
+                    if(roadPlace != nullptr)
+                        break;
+                }
             }
             if( roadPlace != nullptr)
             compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
@@ -129,12 +145,17 @@ void RoadFinder::calculationWaysFromCastle()
         upperItem = (level->itemAt(currentRoadPlace->pos().x() + cellWidth, currentRoadPlace->pos().y(), *qtransform));
         if(upperItem != nullptr)
         {
-            listItems = upperItem->collidingItems();
-            for(QGraphicsItem * item : listItems)
+            roadPlace = nullptr;
+            roadPlace = dynamic_cast<RoadPlace *>(upperItem);
+            if(nullptr == roadPlace)
             {
-                roadPlace =  dynamic_cast<RoadPlace *>(item);
-                if(roadPlace != nullptr)
-                    break;
+                listItems = upperItem->collidingItems();
+                for(QGraphicsItem * item : listItems)
+                {
+                    roadPlace =  dynamic_cast<RoadPlace *>(item);
+                    if(roadPlace != nullptr)
+                        break;
+                }
             }
             if( roadPlace != nullptr)
             compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
@@ -143,12 +164,17 @@ void RoadFinder::calculationWaysFromCastle()
         upperItem = (level->itemAt(currentRoadPlace->pos().x() - cellWidth, currentRoadPlace->pos().y(), *qtransform));
         if(upperItem != nullptr)
         {
-            listItems = upperItem->collidingItems();
-            for(QGraphicsItem * item : listItems)
+            roadPlace = nullptr;
+            roadPlace = dynamic_cast<RoadPlace *>(upperItem);
+            if(nullptr == roadPlace)
             {
-                roadPlace =  dynamic_cast<RoadPlace *>(item);
-                if(roadPlace != nullptr)
-                    break;
+                listItems = upperItem->collidingItems();
+                for(QGraphicsItem * item : listItems)
+                {
+                    roadPlace =  dynamic_cast<RoadPlace *>(item);
+                    if(roadPlace != nullptr)
+                        break;
+                }
             }
             if( roadPlace != nullptr)
             compareAndCalculationWeightWithCurrent(roadPlace, currentRoadPlace, &calculationPoints);
@@ -168,22 +194,22 @@ void RoadFinder::compareAndCalculationWeightWithCurrent(
 {
     if( roadPlace != nullptr)
     {
-        if(roadPlace->getWeight() == roadPlace->BASEWEIGHT + roadPlace->getDamageWeight())
-        {
-            roadPlace->increaseWeight(currentRoadPlace->getWeight());
-            if(!calculationPoints->contains(roadPlace->getWeight()))
-                calculationPoints->insert(roadPlace->getWeight(), new QList<RoadPlace *>());
-            (*calculationPoints)[roadPlace->getWeight()]->push_back(roadPlace);
-        }else
-        if(roadPlace->getWeight() - roadPlace->getDamageWeight() > currentRoadPlace->getWeight())
-        {
-            roadPlace->initializationWeight();
-            roadPlace->increaseWeight(currentRoadPlace->getWeight());
-            if(!calculationPoints->contains(roadPlace->getWeight()))
-                calculationPoints->insert(roadPlace->getWeight(), new QList<RoadPlace *>());
-            (*calculationPoints)[roadPlace->getWeight()]->push_back(roadPlace);
-        }
+            qDebug()<<"xrp: "<<roadPlace->x()<<"\tyrp: "<<roadPlace->y();
+
+            if(roadPlace->getWeight() == roadPlace->BASEWEIGHT + roadPlace->getDamageWeight())
+            {
+                roadPlace->increaseWeight(currentRoadPlace->getWeight());
+                if(!calculationPoints->contains(roadPlace->getWeight()))
+                    calculationPoints->insert(roadPlace->getWeight(), new QList<RoadPlace *>());
+                (*calculationPoints)[roadPlace->getWeight()]->push_back(roadPlace);
+            }else
+            if(roadPlace->getWeight() - roadPlace->getDamageWeight() - roadPlace->BASEWEIGHT > currentRoadPlace->getWeight())
+            {
+                roadPlace->initializationWeight();
+                roadPlace->increaseWeight(currentRoadPlace->getWeight() + roadPlace->getDamageWeight());
+                if(!calculationPoints->contains(roadPlace->getWeight()))
+                    calculationPoints->insert(roadPlace->getWeight(), new QList<RoadPlace *>());
+                (*calculationPoints)[roadPlace->getWeight()]->push_back(roadPlace);
+            }
     }
 }
-
-//void RoadFinder::calculationWay()

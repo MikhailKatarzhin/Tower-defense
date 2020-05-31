@@ -131,6 +131,7 @@ void Game::gameOver()
 void Game::wastelifes()
 {
     --lifes;
+    emit change_lifes(lifes);
     --enemies;
     emit change_enemy(enemies);
     if (lifes <= 0  ) gameOver();

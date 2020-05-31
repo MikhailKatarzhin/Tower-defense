@@ -1,81 +1,154 @@
 #include "enemy/enemyRunner.h"
+#include "places/castlePlace.h"
+#include <QtDebug>
 
-
-EnemyRunner::EnemyRunner(Road _way, int wave) : way(_way)
+EnemyRunner::EnemyRunner(QPointF *startCoordinats, int wave, QGraphicsScene * level)
 {
+    this->level = level;
     passedWay = 0;
     sprite = new QPixmap(":/res/images/EnemyRunner.png");
     max_hp = 100 * pow(1.15, wave);
     current_hp = max_hp;
     speed = 550 * pow(1.05, wave);
     armor = 0;
-    point = 1;
     prize = 7 * pow(1.1, wave);
-    this->setPos(way.getStart().x(), way.getStart().y());
-    lifes = new QTimer();
-    connect(lifes, SIGNAL(timeout()), this, SLOT(move()));
-    lifes->start(10000/ speed);
+    this->setPos(startCoordinats->x(),
+                 startCoordinats->y());
+
+
+    QPointF tmpPoint;
+    QList<QGraphicsItem *> listItems;
+    tmpPoint.setX(this->x());
+    tmpPoint.setY(this->y());
+    listItems = level->items(tmpPoint);
+    for(QGraphicsItem * item : listItems)
+    {
+        nextRoadPlace =  dynamic_cast<RoadPlace *>(item);
+        if(nextRoadPlace != nullptr)
+            break;
+    }
+
+    steps = new QTimer();
+    connect(steps, SIGNAL(timeout()), this, SLOT(move()));
+    steps->start(10000/ speed);
 }
 
 void EnemyRunner::move()
 {
-    // тут наверное стоит пересчитывать путь и идти
-    // хотя не это затратно
-    // а может и нет
-    //
-    if(this->scenePos() != way.getPoints().last())
+    //qDebug()<<"x:\t"<<this->pos().x() << "\ty:\t" << this->pos().y();
+    QPointF tmpPoint;
+    QList<QGraphicsItem *> listItems;
+
+
+    tmpPoint.setX(this->x());
+    tmpPoint.setY(this->y());
+    listItems = level->items(tmpPoint);
+    RoadPlace *currentRoadPlace = nullptr;
+    for(QGraphicsItem * item : listItems)
     {
-        passedWay += (this->scenePos() - way.getPoints()[point]).manhattanLength();
-
-        if(this->scenePos() == way.getPoints()[point]) ++point;
-        else
-        {
-            if(this->scenePos().x() < ((way.getPoints()[point]).x()))
-            {
-                dx = 1;
-            }
-            else if (this->scenePos().x() > (way.getPoints()[point].x()))
-            {
-                dx = -1;
-            }
-            else
-            {
-                dx = 0;
-            }
-            if(this->scenePos().y() < (way.getPoints()[point].y()))
-            {
-                dy = 1;
-            }
-            else if (this->scenePos().y() > (way.getPoints()[point].y()))
-            {
-                dy = -1;
-            }
-            else
-            {
-                dy = 0;
-            }
-
-            moveBy(dx,dy);
-        }
+        currentRoadPlace =  dynamic_cast<RoadPlace *>(item);
+        if(currentRoadPlace != nullptr)
+            break;
     }
-    else
+    if( currentRoadPlace == nullptr )
+        return;
+
+
+    if( this->x() == nextRoadPlace->x() && this->y() == nextRoadPlace->y())
     {
-        lifes->stop();
-        lifes->disconnect();
-        emit win();
-        delete this;
+//        qDebug()<<"x:\t"<< this->x() << "\ty:\t" << this->y();
+
+        tmpPoint.setX(this->x());
+        tmpPoint.setY(this->y() - currentRoadPlace->getSprite()->height());
+        listItems = level->items(tmpPoint);
+        RoadPlace *upRoadPlace = nullptr;
+        for(QGraphicsItem * item : listItems)
+        {
+            upRoadPlace =  dynamic_cast<RoadPlace *>(item);
+            if(upRoadPlace != nullptr)
+                break;
+        }
+
+
+        tmpPoint.setX(this->x());
+        tmpPoint.setY(this->y() + currentRoadPlace->getSprite()->height());
+        listItems = level->items(tmpPoint);
+        RoadPlace *downRoadPlace = nullptr;
+        for(QGraphicsItem * item : listItems)
+        {
+            downRoadPlace =  dynamic_cast<RoadPlace *>(item);
+            if(downRoadPlace != nullptr)
+                break;
+        }
+
+
+        tmpPoint.setX(this->x() + currentRoadPlace->getSprite()->width());
+        tmpPoint.setY(this->y());
+        listItems = level->items(tmpPoint);
+        RoadPlace *rightRoadPlace = nullptr;
+        for(QGraphicsItem * item : listItems)
+        {
+            rightRoadPlace =  dynamic_cast<RoadPlace *>(item);
+            if(rightRoadPlace != nullptr)
+                break;
+        }
+
+
+        tmpPoint.setX(this->x() - currentRoadPlace->getSprite()->width());
+        tmpPoint.setY(this->y());
+        listItems = level->items(tmpPoint);
+        RoadPlace *leftRoadPlace = nullptr;
+        for(QGraphicsItem * item : listItems)
+        {
+            leftRoadPlace =  dynamic_cast<RoadPlace *>(item);
+            if(leftRoadPlace != nullptr)
+                break;
+        }
+
+        RoadPlace *minRoadPlace = currentRoadPlace;
+        if(upRoadPlace != nullptr)
+            if(upRoadPlace->getWeight() < minRoadPlace->getWeight())
+                minRoadPlace = upRoadPlace;
+        if(downRoadPlace != nullptr)
+            if(downRoadPlace->getWeight() < minRoadPlace->getWeight())
+                minRoadPlace = downRoadPlace;
+        if(rightRoadPlace != nullptr)
+            if(rightRoadPlace->getWeight() < minRoadPlace->getWeight())
+                minRoadPlace = rightRoadPlace;
+        if(leftRoadPlace != nullptr)
+            if(leftRoadPlace->getWeight() < minRoadPlace->getWeight())
+                minRoadPlace = leftRoadPlace;
+        nextRoadPlace = minRoadPlace;
+    }
+
+    int dy = (this->y() < nextRoadPlace->y() ? 1 : (this->y() > nextRoadPlace->y() ? -1 : 0));
+    int dx = (this->x() < nextRoadPlace->x() ? 1 : (this->x() > nextRoadPlace->x() ? -1 : 0));
+
+    moveBy(dx,dy);
+    passedWay += sqrt(pow(dx,2) + pow(dy, 2));
+
+    tmpPoint.setX(this->x());
+    tmpPoint.setY(this->y());
+    listItems = this->collidingItems();
+    CastlePlace *castlePlace =nullptr;
+    for(QGraphicsItem * item : listItems)
+    {
+        castlePlace =  dynamic_cast<CastlePlace *>(item);
+        if(castlePlace != nullptr)
+        {
+            steps->stop();
+            steps->disconnect();
+            emit win();
+            delete this;
+            break;
+        }
     }
 }
 
 void EnemyRunner::stop()
 {
-    lifes->stop();
-    lifes->disconnect();
-}
-
-int EnemyRunner::getPoint()
-{
-    return point;
+    steps->stop();
+    steps->disconnect();
 }
 
 int EnemyRunner::getpassedWay()
@@ -90,7 +163,6 @@ int EnemyRunner::getArmor()
 {
     return  armor;
 }
-
 
 void EnemyRunner::damaged(int damage)
 {
@@ -129,14 +201,11 @@ void EnemyRunner::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 EnemyRunner::~EnemyRunner()
 {
-    if (lifes != nullptr)
+    if (steps != nullptr)
     {
-        lifes->stop();
-        lifes->disconnect();
-        delete lifes;
+        steps->stop();
+        steps->disconnect();
+        delete steps;
     }
     delete sprite;
 }
-
-
-

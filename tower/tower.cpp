@@ -195,6 +195,10 @@ float Tower::getFiringRate()
 {
     return firingRate;
 }
+TowerArea* Tower::getTowerArea()
+{
+    return area;
+}
 
 Tower::~Tower()
 {

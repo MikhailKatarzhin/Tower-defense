@@ -44,6 +44,7 @@ public:
     int getCost();
     int getSalePrice();
     float getFiringRate();
+    TowerArea* getTowerArea();
 
     ~TowerAntiArmor();
 

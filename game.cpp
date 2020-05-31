@@ -1,5 +1,6 @@
 #include "game.h"
 #include "enemy/IEnemy.h"
+#include "roadFinder/RoadFinder.h"
 
 Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelParser)
 {
@@ -20,7 +21,7 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
     music = new QMediaPlayer(this);
     music->setPlaylist(playlist);
-    music->setVolume(5);
+    music->setVolume(1);
     music->play();
     //********************//
 
@@ -38,12 +39,27 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     towerUI = new TowerUI(this);
     hud = new HUD(this);
 
-    road =  levelParser->getRoad();
     level = new Level( levelParser->getMap(), this);
+    listDens = new QList<DenPlace *>();
+    QList<QGraphicsItem*> listOfItems = level->items();
+    for (QGraphicsItem* item : listOfItems)
+    {
+        DenPlace * denPlace = dynamic_cast<DenPlace*>(item);
+        if(denPlace != nullptr)
+        {
+            listDens->push_back(denPlace);
+        }
+    }
+    RoadFinder *roadFinder = new RoadFinder(
+                level,
+                levelParser->getMap().getTileH(),
+                levelParser->getMap().getTileW()
+    );
+    emit roadFinder->calculationMap();
 
     selectedTower = nullptr;
     wave = 0;
-    enemies = 10 + wave * 2;
+    enemies = 0;
     currentEnemy = 0;
     lifes = 15;
     money = 250;
@@ -115,8 +131,8 @@ void Game::wastelifes()
 {
     --lifes;
     --enemies;
-    if (lifes <= 0  ) gameOver();
     emit change_enemy(enemies);
+    if (lifes <= 0  ) gameOver();
 }
 
 void Game::reduceMoney(int cash)
@@ -168,25 +184,28 @@ void Game::createEnemies()
         spawnTimer->start(1000 - 9 * wave);
     else
         spawnTimer->start(100);
+
 }
 
 void Game::spawnEnemy()
 {
-    IEnemy *enemy = enemyFactory->createEnemy(road, wave);
-
-    level->addItem(enemy);
-    ++currentEnemy;
-
-    connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
-    connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
-    connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
-
-    if (currentEnemy == 10 + wave * 2)
+    QList<IEnemy *> * listEnemies = enemyFactory->createEnemies(listDens, wave, level);
+    for(IEnemy * enemy : *listEnemies)
     {
-        spawnTimer->disconnect();
-        currentEnemy = 0;
-        emit btn_wave(true);
-        enemies += 10 + wave * 2;
+        level->addItem(enemy);
+        ++currentEnemy;
+        ++enemies;
+        emit change_enemy(enemies);
+        connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
+        connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
+        connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
+
+        if (currentEnemy >= 10 + wave * 2)
+        {
+            spawnTimer->disconnect();
+            currentEnemy = 0;
+            emit btn_wave(true);
+        }
     }
 }
 

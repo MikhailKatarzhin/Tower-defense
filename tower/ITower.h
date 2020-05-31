@@ -1,6 +1,7 @@
 #pragma once
 #include <QtWidgets>
 #include <QGraphicsObject>
+#include "tower/towerarea.h"
 
 class ITower : public QGraphicsObject
 {
@@ -27,6 +28,7 @@ public:
     virtual int getCost() = 0;
     virtual int getSalePrice() = 0;
     virtual float getFiringRate() = 0;
+    virtual TowerArea* getTowerArea() = 0;
 
     virtual ITower * copyTower() = 0;
 signals:

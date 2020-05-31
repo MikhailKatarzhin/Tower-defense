@@ -1,19 +1,18 @@
 #pragma once
-#include <QGraphicsObject>
+#include <math.h>
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QTimer>
-#include <math.h>
-#include "road.h"
 #include "enemy/IEnemy.h"
+#include "places/roadPlace.h"
 
 class EnemyRunner: public IEnemy
 {
     Q_OBJECT
 
 public:
-    EnemyRunner(Road, int wave);
+    EnemyRunner(QPointF *startCoordinats, int wave, QGraphicsScene * level);
     ~EnemyRunner();
-    int getPoint();
     int getpassedWay();
     int getSpeed();
     int getArmor();
@@ -33,17 +32,15 @@ signals:
 
 private:
     QPixmap * sprite;
-    QTimer * lifes;
-    Road way;
+    QTimer * steps;
 
     int passedWay;
     int prize;
-    int point;
     int max_hp;
     int current_hp;
     int speed;
     int armor;
-    double dy;
-    double dx;
-};
 
+    QGraphicsScene* level;
+    RoadPlace *nextRoadPlace;
+};

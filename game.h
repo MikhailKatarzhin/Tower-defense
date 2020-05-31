@@ -1,13 +1,14 @@
 #pragma once
 
-#include <QtWidgets>
 #include <QtMultimedia>
+#include <QtWidgets>
+#include "enemy/IEnemyFactory.h"
+#include "hud.h"
 #include "level.h"
+#include "level/ILevelParser.h"
+#include "roadFinder/RoadFinder.h"
 #include "tower/buildingui.h"
 #include "tower/towerui.h"
-#include "hud.h"
-#include "enemy/IEnemyFactory.h"
-#include "level/ILevelParser.h"
 
 class Game : public QWidget
 {
@@ -43,6 +44,7 @@ private slots:
     void killEnemy(int = 0);
 
 private:
+    RoadFinder * roadFinder;
     IEnemyFactory *enemyFactory;
     ITower * selectedTower;
     QMediaPlayer *music;
@@ -53,8 +55,8 @@ private:
     HUD* hud;
 
     BuildingUI  build_ui;
-    Road road;
 
+    QList<DenPlace *> * listDens;
     int enemies;
     int currentEnemy;
     int wave;

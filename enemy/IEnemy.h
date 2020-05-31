@@ -5,7 +5,6 @@
 class IEnemy : public QGraphicsObject {
     Q_OBJECT
 public:
-    virtual int getPoint() = 0;
     virtual int getpassedWay() = 0;
     virtual int getSpeed() = 0;
     virtual int getArmor() = 0;

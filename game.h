@@ -1,14 +1,14 @@
 #pragma once
 
-#include <QtWidgets>
 #include <QtMultimedia>
-#include "level.h"
-#include "tower/buildingui.h"
-#include "tower/towerui.h"
-#include "hud.h"
+#include <QtWidgets>
 #include "enemy/IEnemyFactory.h"
+#include "hud.h"
+#include "level.h"
 #include "level/ILevelParser.h"
 #include "roadFinder/RoadFinder.h"
+#include "tower/buildingui.h"
+#include "tower/towerui.h"
 
 class Game : public QWidget
 {
@@ -55,8 +55,8 @@ private:
     HUD* hud;
 
     BuildingUI  build_ui;
-    Road road;
 
+    QList<DenPlace *> * listDens;
     int enemies;
     int currentEnemy;
     int wave;

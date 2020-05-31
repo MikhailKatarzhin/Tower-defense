@@ -2,7 +2,7 @@
 #include "places/castlePlace.h"
 #include <QtDebug>
 
-EnemyArmored::EnemyArmored(Road _way, int wave, QGraphicsScene * level) : way(_way)
+EnemyArmored::EnemyArmored(QPointF *startCoordinats, int wave, QGraphicsScene * level)
 {
     this->level = level;
     passedWay   = 0;
@@ -11,9 +11,9 @@ EnemyArmored::EnemyArmored(Road _way, int wave, QGraphicsScene * level) : way(_w
     current_hp  = max_hp;
     speed       = 400 * pow(1.005, wave);
     armor       = 6 * pow(1.1, wave);
-    point       = 1;
     prize       = 8 * pow(1.1, wave);
-    this->setPos(way.getStart().x(), way.getStart().y());
+    this->setPos(startCoordinats->x(),
+                 startCoordinats->y());
 
 
     QPointF tmpPoint;
@@ -151,11 +151,6 @@ void EnemyArmored::stop()
     steps->disconnect();
 }
 
-int EnemyArmored::getPoint()
-{
-    return point;
-}
-
 int EnemyArmored::getpassedWay()
 {
     return  passedWay;
@@ -168,6 +163,7 @@ int EnemyArmored::getArmor()
 {
     return  armor;
 }
+
 void EnemyArmored::damaged(int damage)
 {
     damage -= armor;
@@ -213,6 +209,3 @@ EnemyArmored::~EnemyArmored()
     }
     delete sprite;
 }
-
-
-

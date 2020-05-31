@@ -1,9 +1,8 @@
 #include "enemy/enemy.h"
 #include "places/castlePlace.h"
-#include <QGraphicsItem>
 #include <QtDebug>
 
-Enemy::Enemy(Road _way, int wave, QGraphicsScene * level) : way(_way)
+Enemy::Enemy(QPointF *startCoordinats, int wave, QGraphicsScene * level)
 {
     this->level = level;
     passedWay   = 0;
@@ -12,10 +11,9 @@ Enemy::Enemy(Road _way, int wave, QGraphicsScene * level) : way(_way)
     current_hp  = max_hp;
     speed       = 500 * pow(1.005, wave);
     armor       = 3 * pow(1.1, wave);
-    point       = 1;
     prize       = 5 * pow(1.1, wave);
-    this->setPos(way.getStart().x(),
-                 way.getStart().y());
+    this->setPos(startCoordinats->x(),
+                 startCoordinats->y());
 
 
     QPointF tmpPoint;
@@ -153,11 +151,6 @@ void Enemy::stop()
     steps->disconnect();
 }
 
-int Enemy::getPoint()
-{
-    return point;
-}
-
 int Enemy::getpassedWay()
 {
     return  passedWay;
@@ -216,5 +209,3 @@ Enemy::~Enemy()
     }
     delete sprite;
 }
-
-

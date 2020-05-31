@@ -29,6 +29,7 @@ private:
     int lvl_w;
     ITower * tower;
     void renderMap();
+
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);

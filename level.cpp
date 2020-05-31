@@ -83,8 +83,6 @@ void Level::renderMap()
             }
         }
     }
-    qDebug() << "Call rF->test() after create map.";
-//    roadFinder->test();
 }
 
 void Level::createTower(ITower * tower)
@@ -133,8 +131,6 @@ void Level::mousePressEvent(QGraphicsSceneMouseEvent *event)
             tower->setSelected(true);
             emit setUI(tower);
             emit successBuild(tower->getCost());
-            qDebug() << "Call rf->test() after build.";
-//            roadFinder->test();
             return;
         }
 

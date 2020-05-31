@@ -39,14 +39,23 @@ Game::Game(QWidget *parent , IEnemyFactory *enemyFactory, ILevelParser* levelPar
     towerUI = new TowerUI(this);
     hud = new HUD(this);
 
-    road =  levelParser->getRoad();
     level = new Level( levelParser->getMap(), this);
+    listDens = new QList<DenPlace *>();
+    QList<QGraphicsItem*> listOfItems = level->items();
+    for (QGraphicsItem* item : listOfItems)
+    {
+        DenPlace * denPlace = dynamic_cast<DenPlace*>(item);
+        if(denPlace != nullptr)
+        {
+            listDens->push_back(denPlace);
+        }
+    }
     RoadFinder *roadFinder = new RoadFinder(
                 level,
                 levelParser->getMap().getTileH(),
                 levelParser->getMap().getTileW()
     );
-    roadFinder->calculationMap();
+    emit roadFinder->calculationMap();
 
     selectedTower = nullptr;
     wave = 0;
@@ -180,22 +189,23 @@ void Game::createEnemies()
 
 void Game::spawnEnemy()
 {
-    IEnemy *enemy = enemyFactory->createEnemy(road, wave, level);
-
-    level->addItem(enemy);
-    ++currentEnemy;
-    ++enemies;
-    emit change_enemy(enemies);
-    connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
-    connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
-    connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
-
-    if (currentEnemy == /*10 + wave * 2*/ 1)
+    QList<IEnemy *> * listEnemies = enemyFactory->createEnemies(listDens, wave, level);
+    for(IEnemy * enemy : *listEnemies)
     {
-        spawnTimer->disconnect();
-        currentEnemy = 0;
-        emit btn_wave(true);
-        enemies += 10 + wave * 2;
+        level->addItem(enemy);
+        ++currentEnemy;
+        ++enemies;
+        emit change_enemy(enemies);
+        connect(this, SIGNAL(stopEnemy()), enemy, SLOT(stop()));
+        connect(enemy, SIGNAL(win()), this, SLOT(wastelifes()));
+        connect(enemy, SIGNAL(dead(int)), this, SLOT(killEnemy(int)));
+
+        if (currentEnemy >= 10 + wave * 2)
+        {
+            spawnTimer->disconnect();
+            currentEnemy = 0;
+            emit btn_wave(true);
+        }
     }
 }
 

@@ -9,12 +9,12 @@
 #include "tower/ITower.h"
 #include <QTime>
 
-
 RoadFinder::RoadFinder(
         QGraphicsScene* level,
         int cellHeight,
         int cellWidth
-) {
+)
+{
     this->level = level;
     this->cellWidth = cellWidth;
     this->cellHeight = cellHeight;

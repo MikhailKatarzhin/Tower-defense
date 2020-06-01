@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtMultimedia>
 #include <QtWidgets>
 #include "enemy/IEnemyFactory.h"

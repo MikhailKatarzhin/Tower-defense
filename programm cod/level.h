@@ -1,12 +1,12 @@
 #pragma once
 #include <QGraphicsView>
 #include "map.h"
-#include "tower/ITower.h"
 #include "places/towerplace.h"
 #include "places/castlePlace.h"
 #include "places/denPlace.h"
 #include "places/roadPlace.h"
 #include "roadFinder/RoadFinder.h"
+#include "tower/ITower.h"
 
 class Level : public QGraphicsScene
 {

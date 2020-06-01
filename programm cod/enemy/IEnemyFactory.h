@@ -1,8 +1,8 @@
 #pragma once
-#include "enemy/IEnemy.h"
-#include "places/denPlace.h"
 #include <QGraphicsScene>
 #include <QList>
+#include "enemy/IEnemy.h"
+#include "places/denPlace.h"
 
 class IEnemyFactory {
 public:

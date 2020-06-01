@@ -1,10 +1,10 @@
-#include "menu.h"
-#include "game.h"
-#include "level/XmlLevelParser.h"
-#include "level/TextFileLevelParser.h"
-#include "enemy/EasyEnemyFactory.h"
 #include "enemy/BaseEnemyFactory.h"
+#include "enemy/EasyEnemyFactory.h"
 #include "enemy/HardEnemyFactory.h"
+#include "game.h"
+#include "level/TextFileLevelParser.h"
+#include "level/XmlLevelParser.h"
+#include "menu.h"
 
 Menu::Menu(QWidget *parent)
 {
@@ -32,7 +32,6 @@ void Menu::chooseLvl(IEnemyFactory *enemyFactory)
     Game * game  = new Game(nullptr, enemyFactory, new TextFileLevelParser(":/res/maps/map"));
     this->close();
     game->show();
-    //qDebug()<< game->size();
 }
 void Menu::chooseEasy()
 {

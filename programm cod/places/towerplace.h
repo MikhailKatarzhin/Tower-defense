@@ -5,7 +5,6 @@
 class TowerPlace : public QGraphicsObject
 {
     Q_OBJECT
-
 public:
     TowerPlace();
 protected:

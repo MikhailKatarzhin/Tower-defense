@@ -5,7 +5,6 @@
 class RoadPlace : public QGraphicsObject
 {
     Q_OBJECT
-
 public:
     const float BASEWEIGHT = 1;
 

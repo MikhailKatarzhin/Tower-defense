@@ -1,7 +1,7 @@
 #include "BaseEnemyFactory.h"
 #include "enemy/enemy.h"
-#include "enemy/enemyRunner.h"
 #include "enemy/enemyArmored.h"
+#include "enemy/enemyRunner.h"
 BaseEnemyFactory::BaseEnemyFactory()
 {
 

@@ -123,7 +123,6 @@ void EnemyRunner::move()
 
     int dy = (this->y() < nextRoadPlace->y() ? 1 : (this->y() > nextRoadPlace->y() ? -1 : 0));
     int dx = (this->x() < nextRoadPlace->x() ? 1 : (this->x() > nextRoadPlace->x() ? -1 : 0));
-
     moveBy(dx,dy);
     passedWay += sqrt(pow(dx,2) + pow(dy, 2));
 

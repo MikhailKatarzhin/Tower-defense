@@ -6,7 +6,6 @@
 class Menu : public QWidget
 {
     Q_OBJECT
-
 public:
     Menu(QWidget * parent  = nullptr);
 public slots:
@@ -19,7 +18,4 @@ private:
     QPushButton  baseGame;
     QPushButton  hardGame;
     QPushButton  quit;
-
 };
-
-

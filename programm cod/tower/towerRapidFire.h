@@ -2,9 +2,9 @@
 
 #include <QtWidgets>
 #include <QPainter>
-#include "tower/towerarea.h"
 #include "bullet.h"
 #include "tower/ITower.h"
+#include "tower/towerarea.h"
 
 class TowerRapidFire : public ITower
 {

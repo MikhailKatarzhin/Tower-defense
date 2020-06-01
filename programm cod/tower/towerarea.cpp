@@ -23,8 +23,8 @@ QRectF TowerArea::boundingRect() const
     return QRectF(0, 0, radius, radius);
 }
 QPainterPath TowerArea::shape() const
- {
-     QPainterPath path;
-     path.addEllipse(boundingRect());
-     return path;
- }
+{
+    QPainterPath path;
+    path.addEllipse(boundingRect());
+    return path;
+}

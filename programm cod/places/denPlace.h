@@ -5,7 +5,6 @@
 class DenPlace : public QGraphicsObject
 {
     Q_OBJECT
-
 public:
     DenPlace();
 protected:

@@ -1,7 +1,5 @@
 #include "tower/towerui.h"
 #include <math.h>
-
-
 TowerUI::TowerUI(QWidget *parent) : QWidget(parent)
 {
     setFixedSize(220,145);

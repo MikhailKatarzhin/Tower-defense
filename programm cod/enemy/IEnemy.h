@@ -1,7 +1,5 @@
 #pragma once
-
 #include <QGraphicsObject>
-
 class IEnemy : public QGraphicsObject {
     Q_OBJECT
 public:
@@ -17,4 +15,3 @@ signals:
     virtual void dead(int) = 0;
     virtual void win() = 0;
 };
-

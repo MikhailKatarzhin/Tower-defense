@@ -18,7 +18,5 @@ private:
     int tile_h;
     int map_w;
     int map_h;
-
-
 };
 
